@@ -53,9 +53,22 @@ namespace KHJHLog
 
         private static void InitMainPanel()
         {
-            foreach(NLDPanel Panel in MotherForm.Panels)
+
+           bool addPanel=true;
+            foreach (NLDPanel Panel in MotherForm.Panels)
+            {
                 if (Panel.Group.Equals("學校"))
+                {
                     MainPanel = Panel;
+                    addPanel=false;
+                }
+            }
+
+            if (addPanel)
+            {
+                MainPanel = new NLDPanel();
+                MainPanel.Group = "學校";
+            }
         }
     }
 }

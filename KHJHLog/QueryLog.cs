@@ -108,6 +108,7 @@ namespace KHJHLog
 
                 strBuilder.AppendLine(string.Format("{0}「{1}」", Action, elmContent.ElementText("ClassName")));
                 strBuilder.AppendLine(string.Format("年級「{0}」", elmContent.ElementText("GradeYear")));
+                strBuilder.AppendLine(string.Format("備註「{0}」", elmContent.ElementText("Comment")));
 
                 return strBuilder.ToString();
             }
@@ -147,6 +148,8 @@ namespace KHJHLog
             }
 
             else if (Action.Equals("匯入更新班級"))
+                return elmContent.ElementText("Summary");
+            else if (Action.Equals("匯入更新"))
                 return elmContent.ElementText("Summary");
             else if (Action.Equals("匯入新增學生"))
                 return elmContent.ElementText("Summary");
@@ -349,6 +352,7 @@ namespace KHJHLog
 
                 if (Action.Equals("匯入新增學生") || 
                     Action.Equals("匯入更新班級") ||
+                    Action.Equals("匯入更新") ||
                     Action.Equals("匯入特殊身分"))
                     new frmDetailLog2(grdLog.Rows[grdLog.SelectedCells[0].RowIndex]).ShowDialog();
                 else

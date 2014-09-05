@@ -99,6 +99,32 @@ namespace KHJHLog
                                 elmStudent.ElementText("NewClassName"));
                         }
                     }
+                    else if (txtAction.Text.Equals("匯入更新"))
+                    {
+                        grdDetail.Columns.Add("身分證", "身分證");
+                        grdDetail.Columns.Add("學號", "學號");
+                        grdDetail.Columns.Add("學生姓名", "學生姓名");
+                        grdDetail.Columns.Add("原班級", "原班級");
+                        grdDetail.Columns.Add("新班級", "新班級");
+                        grdDetail.Columns.Add("原狀態", "原狀態");
+                        grdDetail.Columns.Add("新狀態", "新狀態");
+
+                        foreach (XElement elmStudent in elmContent.Elements("Student"))
+                        {
+                            grdDetail.Rows.Add(
+                                txtDate.Text,
+                                txtSchool.Text,
+                                txtAction.Text,
+                                elmStudent.ElementText("IDNumber"),
+                                elmStudent.ElementText("StudentNumber"),
+                                elmStudent.ElementText("StudentName"),
+                                elmStudent.ElementText("ClassName"),
+                                elmStudent.ElementText("NewClassName"),
+                                elmStudent.ElementText("StudentStatus"),
+                                elmStudent.ElementText("NewStudentStatus")
+                                );
+                        }
+                    }
                     else if (txtAction.Text.Equals("匯入特殊身分"))
                     {
                         //<Content>
