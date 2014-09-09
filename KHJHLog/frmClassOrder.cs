@@ -28,91 +28,97 @@ namespace KHJHLog
             string SelectedDSNS = "" + cmbSchool.SelectedValue;
             string School = (cmbSchool.SelectedItem as School).Title;
 
-            try
+            if (FISCA.Authentication.DSAServices.PassportToken == null)
             {
-
-                Connection con = new Connection();
-
-                //取得局端登入後Greening發的Passport，並登入指定的Contract
-                con.Connect(FISCA.Authentication.DSAServices.DefaultDataSource.AccessPoint, "ischool.kh.central_office.user", FISCA.Authentication.DSAServices.PassportToken);
-
-                //取得該Contract所發的Passport
-                Envelope Response = con.SendRequest("DS.Base.GetPassportToken", new Envelope());
-                PassportToken Passport = new PassportToken(Response.Body);
-
-                //TODO：拿此Passport登入各校
-                Connection conSchool = new Connection();
-                conSchool.Connect(SelectedDSNS, "ischool.kh.central_office", Passport);
-
-                Response = conSchool.SendRequest("_.GetClassStudentCount", new Envelope());
-
-                //<Class>
-                //  <ClassName>101</ClassName>
-                //  <StudentCount>25</StudentCount>
-                //  <Lock />
-                //  <Comment />
-                //  <NumberReduceSum />
-                //  <ClassStudentCount>25</ClassStudentCount>
-                //</Class>
-
-                //班級名稱、實際人數、編班人數、編班順位、編班鎖定、鎖定備註
-
-                XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
-
-                grdClassOrder.Rows.Clear();
-
-                List<ClassOrder> ClassOrders = new List<ClassOrder>();
-
-                foreach (XElement elmClass in elmResponse.Elements("Class"))
-                {
-                    ClassOrder vClassOrder = new ClassOrder();
-
-                    ClassOrders.Add(vClassOrder);
-
-                    string ClassName = elmClass.ElementText("ClassName");
-                    string StudentCount = elmClass.ElementText("StudentCount");
-                    string ClassStudentCount = elmClass.ElementText("ClassStudentCount");
-                    string NumberReduceSum = elmClass.ElementText("NumberReduceSum");
-
-                    if (!string.IsNullOrWhiteSpace(NumberReduceSum))
-                        ClassStudentCount = ClassStudentCount + "(" + StudentCount + "+" + NumberReduceSum + ")";
-
-                    
-
-                    string NumberReduceCount = elmClass.ElementText("NumberReduceCount");
-                    string Lock = elmClass.ElementText("Lock");
-                    string Comment = elmClass.ElementText("Comment");
-                    string ClassOrder = string.Empty;
-
-                    vClassOrder.ClassName = ClassName;
-                    vClassOrder.StudentCount = StudentCount;
-                    vClassOrder.ClassStudentCount = ClassStudentCount;
-                    vClassOrder.NumberReduceSum = NumberReduceSum;
-                    vClassOrder.NumberReduceCount = NumberReduceCount;
-                    vClassOrder.Lock = Lock;
-                    vClassOrder.Comment = Comment;
-                    vClassOrder.ClassOrderNumber = ClassOrder;
-                    vClassOrder.ClassStudentCountValue = StudentCount.GetInt() + NumberReduceSum.GetInt();
-                }
-
-                ClassOrders.CalculateClassOrder();
-
-                foreach(ClassOrder vClassOrder in ClassOrders)
-                {
-                    grdClassOrder.Rows.Add(
-                        School,
-                        vClassOrder.ClassName,
-                        vClassOrder.StudentCount,
-                        vClassOrder.ClassStudentCount,
-                        vClassOrder.NumberReduceCount,
-                        vClassOrder.ClassOrderNumber,
-                        vClassOrder.Lock,
-                        vClassOrder.Comment);
-                }
+                FISCA.Presentation.Controls.MsgBox.Show("Greening Passport 認證失敗，請檢查登入帳號!");
             }
-            catch (Exception ve)
+            else
             {
-                MessageBox.Show(ve.Message);
+                try
+                {
+                    Connection con = new Connection();
+
+                    //取得局端登入後Greening發的Passport，並登入指定的Contract
+                    con.Connect(FISCA.Authentication.DSAServices.DefaultDataSource.AccessPoint, "ischool.kh.central_office.user", FISCA.Authentication.DSAServices.PassportToken);
+
+                    //取得該Contract所發的Passport
+                    Envelope Response = con.SendRequest("DS.Base.GetPassportToken", new Envelope());
+                    PassportToken Passport = new PassportToken(Response.Body);
+
+                    //TODO：拿此Passport登入各校
+                    Connection conSchool = new Connection();
+                    conSchool.Connect(SelectedDSNS, "ischool.kh.central_office", Passport);
+
+                    Response = conSchool.SendRequest("_.GetClassStudentCount", new Envelope());
+
+                    //<Class>
+                    //  <ClassName>101</ClassName>
+                    //  <StudentCount>25</StudentCount>
+                    //  <Lock />
+                    //  <Comment />
+                    //  <NumberReduceSum />
+                    //  <ClassStudentCount>25</ClassStudentCount>
+                    //</Class>
+
+                    //班級名稱、實際人數、編班人數、編班順位、編班鎖定、鎖定備註
+
+                    XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
+
+                    grdClassOrder.Rows.Clear();
+
+                    List<ClassOrder> ClassOrders = new List<ClassOrder>();
+
+                    foreach (XElement elmClass in elmResponse.Elements("Class"))
+                    {
+                        ClassOrder vClassOrder = new ClassOrder();
+
+                        ClassOrders.Add(vClassOrder);
+
+                        string ClassName = elmClass.ElementText("ClassName");
+                        string StudentCount = elmClass.ElementText("StudentCount");
+                        string ClassStudentCount = elmClass.ElementText("ClassStudentCount");
+                        string NumberReduceSum = elmClass.ElementText("NumberReduceSum");
+
+                        if (!string.IsNullOrWhiteSpace(NumberReduceSum))
+                            ClassStudentCount = ClassStudentCount + "(" + StudentCount + "+" + NumberReduceSum + ")";
+
+
+
+                        string NumberReduceCount = elmClass.ElementText("NumberReduceCount");
+                        string Lock = elmClass.ElementText("Lock");
+                        string Comment = elmClass.ElementText("Comment");
+                        string ClassOrder = string.Empty;
+
+                        vClassOrder.ClassName = ClassName;
+                        vClassOrder.StudentCount = StudentCount;
+                        vClassOrder.ClassStudentCount = ClassStudentCount;
+                        vClassOrder.NumberReduceSum = NumberReduceSum;
+                        vClassOrder.NumberReduceCount = NumberReduceCount;
+                        vClassOrder.Lock = Lock;
+                        vClassOrder.Comment = Comment;
+                        vClassOrder.ClassOrderNumber = ClassOrder;
+                        vClassOrder.ClassStudentCountValue = StudentCount.GetInt() + NumberReduceSum.GetInt();
+                    }
+
+                    ClassOrders.CalculateClassOrder();
+
+                    foreach (ClassOrder vClassOrder in ClassOrders)
+                    {
+                        grdClassOrder.Rows.Add(
+                            School,
+                            vClassOrder.ClassName,
+                            vClassOrder.StudentCount,
+                            vClassOrder.ClassStudentCount,
+                            vClassOrder.NumberReduceCount,
+                            vClassOrder.ClassOrderNumber,
+                            vClassOrder.Lock,
+                            vClassOrder.Comment);
+                    }
+                }
+                catch (Exception ve)
+                {
+                    MessageBox.Show(ve.Message);
+                }
             }
         }
 
