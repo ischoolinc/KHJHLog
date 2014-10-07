@@ -89,6 +89,7 @@ namespace KHJHLog
                 strBuilder.AppendLine(string.Format("學生「{0}」從「{1}」調整班級到「{2}」", elmContent.ElementText("StudentName"), elmContent.ElementText("ClassName"), elmContent.ElementText("NewClassName")));
                 strBuilder.AppendLine(string.Format("身分證「{0}」", elmContent.ElementText("IDNumber")));
                 strBuilder.AppendLine(string.Format("學號「{0}」", elmContent.ElementText("StudentNumber")));
+                strBuilder.AppendLine(string.Format("編班委員會會議日期「{0}」", elmContent.ElementText("ScheduleClassDate")));
                 strBuilder.AppendLine(string.Format("備註「{0}」", elmContent.ElementText("Reason")));
                 strBuilder.AppendLine(string.Format("第一優先順班級「{0}」", elmContent.ElementText("FirstPriorityClassName")));
 
