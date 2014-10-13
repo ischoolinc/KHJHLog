@@ -12,6 +12,7 @@ using FISCA.Data;
 using FISCA.LogAgent;
 using FISCA.UDT;
 using KHJHLog.UDT;
+using System.Diagnostics;
 
 
 namespace KHJHLog
@@ -92,7 +93,7 @@ namespace KHJHLog
                 strBuilder.AppendLine(string.Format("編班委員會會議日期「{0}」", elmContent.ElementText("ScheduleClassDate")));
                 strBuilder.AppendLine(string.Format("備註「{0}」", elmContent.ElementText("Reason")));
                 strBuilder.AppendLine(string.Format("第一優先順班級「{0}」", elmContent.ElementText("FirstPriorityClassName")));
-
+                strBuilder.AppendLine(string.Format("相關證明文件網址「{0}」", elmContent.ElementText("EDoc")));
                 return strBuilder.ToString();
 
                 //return 
@@ -110,6 +111,7 @@ namespace KHJHLog
                 strBuilder.AppendLine(string.Format("{0}「{1}」", Action, elmContent.ElementText("ClassName")));
                 strBuilder.AppendLine(string.Format("年級「{0}」", elmContent.ElementText("GradeYear")));
                 strBuilder.AppendLine(string.Format("備註「{0}」", elmContent.ElementText("Comment")));
+                strBuilder.AppendLine(string.Format("相關證明文件網址「{0}」", elmContent.ElementText("EDoc")));
 
                 return strBuilder.ToString();
             }
@@ -132,6 +134,7 @@ namespace KHJHLog
                 strBuilder.AppendLine(string.Format("座號「{0}」", elmContent.ElementText("SeatNo")));
                 strBuilder.AppendLine(string.Format("文號「{0}」", elmContent.ElementText("DocNo")));
                 strBuilder.AppendLine(string.Format("減免人數「{0}」", elmContent.ElementText("NumberReduce")));
+                strBuilder.AppendLine(string.Format("相關證明文件網址「{0}」", elmContent.ElementText("EDoc")));
 
                 return strBuilder.ToString();
             }
@@ -262,8 +265,10 @@ namespace KHJHLog
             DataTable tblSchoolLog = queryhelper.Select(strSQL);
             List<School> Schools = accesshelper.Select<School>();
 
+            StringBuilder sb = new StringBuilder();
+
             foreach (DataRow row in tblSchoolLog.Rows)
-            {
+            {                
                 string UID = row.Field<string>("uid");
                 string Date = DateTime.Parse(row.Field<string>("date_time")).ToString("yyyy/MM/dd HH:mm");
                 string DSNS = row.Field<string>("dsns");
@@ -271,6 +276,21 @@ namespace KHJHLog
                 string Content = GetContentFormat(Action, row.Field<string>("content"));
                 string IsVerify = row.Field<string>("is_verify");
                 string Comment = row.Field<string>("comment");
+                string EDoc="";
+                // 處理連結位置
+                sb.Clear();
+                sb.Append("<root>");
+                if(row["content"]!=null)
+                    sb.Append(row["content"].ToString());
+                sb.Append("</root>");
+                try
+                {
+                    XElement elm = XElement.Parse(sb.ToString());
+                    if (elm.Element("EDoc") != null)
+                        EDoc = elm.Element("EDoc").Value;
+                }
+                catch(Exception ex)
+                {}
 
                 School vSchool = Schools
                     .Find(x => x.DSNS.Equals(DSNS));
@@ -288,6 +308,7 @@ namespace KHJHLog
                         SchoolName,
                         Action,
                         Content,
+                        EDoc,
                         IsVerify,
                         Comment);
                 }
@@ -330,7 +351,17 @@ namespace KHJHLog
 
         private void grdLog_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            // 處理連結
+            if (e.RowIndex>0 && e.ColumnIndex == colEDoc.Index && grdLog.Rows[e.RowIndex].Cells[colEDoc.Index].Value != null)
+            {
+                string url = grdLog.Rows[e.RowIndex].Cells[colEDoc.Index].Value.ToString();
 
+                if (!string.IsNullOrEmpty(url))
+                {
+                    ProcessStartInfo info = new ProcessStartInfo(url);
+                    Process.Start(info);
+                }
+            }
         }
 
         private void grdLog_CellEndEdit(object sender, DataGridViewCellEventArgs e)
