@@ -98,13 +98,15 @@ namespace KHJHLog
 
             List<School> Schools = helper.Select<School>();
 
-            School vSchool = new School();
+            // 依學校名稱排序
+            Schools = (from data in Schools orderby data.Title ascending select data).ToList();
+            //School vSchool = new School();
 
-            vSchool.DSNS = "dev.jh_kh";
-            vSchool.Title = "高雄測試國中(內部)";
+            //vSchool.DSNS = "dev.jh_kh";
+            //vSchool.Title = "高雄測試國中(內部)";
 
 
-            Schools.Add(vSchool);
+            //Schools.Add(vSchool);
 
             cmbSchool.DataSource = Schools;
             cmbSchool.DisplayMember = "Title";
