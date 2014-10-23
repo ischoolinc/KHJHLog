@@ -360,7 +360,7 @@ namespace KHJHLog
                 {
                     try
                     {
-                        if (url.Contains("http"))
+                        if (url.Contains("://"))
                         {
                             ProcessStartInfo info = new ProcessStartInfo(url);
                             Process.Start(info);
