@@ -352,14 +352,28 @@ namespace KHJHLog
         private void grdLog_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // 處理連結
-            if (e.RowIndex>0 && e.ColumnIndex == colEDoc.Index && grdLog.Rows[e.RowIndex].Cells[colEDoc.Index].Value != null)
+            if (e.RowIndex>=0 && e.ColumnIndex == colEDoc.Index && grdLog.Rows[e.RowIndex].Cells[colEDoc.Index].Value != null)
             {
                 string url = grdLog.Rows[e.RowIndex].Cells[colEDoc.Index].Value.ToString();
 
                 if (!string.IsNullOrEmpty(url))
                 {
-                    ProcessStartInfo info = new ProcessStartInfo(url);
-                    Process.Start(info);
+                    try
+                    {
+                        if (url.Contains("http"))
+                        {
+                            ProcessStartInfo info = new ProcessStartInfo(url);
+                            Process.Start(info);
+                        }
+                        else
+                        {
+                            FISCA.Presentation.Controls.MsgBox.Show("網址不完整。");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        FISCA.Presentation.Controls.MsgBox.Show("網址無法解析，" + ex.Message);
+                    }
                 }
             }
         }
