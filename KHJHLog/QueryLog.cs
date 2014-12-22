@@ -147,7 +147,7 @@ namespace KHJHLog
                 strBuilder.AppendLine(string.Format("班級「{0}」", elmContent.ElementText("ClassName")));
                 strBuilder.AppendLine(string.Format("狀態變更前「{0}」", elmContent.ElementText("StudentStatus")));
                 strBuilder.AppendLine(string.Format("狀態變更後「{0}」", elmContent.ElementText("NewStudentStatus")));
-
+                strBuilder.AppendLine(string.Format("備註「{0}」", elmContent.ElementText("Reason")));
                 return strBuilder.ToString();
             }
             else if (Action.Equals("一般狀態變更"))
@@ -159,6 +159,7 @@ namespace KHJHLog
                 strBuilder.AppendLine(string.Format("班級「{0}」", elmContent.ElementText("ClassName")));
                 strBuilder.AppendLine(string.Format("狀態變更前「{0}」", elmContent.ElementText("StudentStatus")));
                 strBuilder.AppendLine(string.Format("狀態變更後「{0}」", elmContent.ElementText("NewStudentStatus")));
+                strBuilder.AppendLine(string.Format("備註「{0}」", elmContent.ElementText("Reason")));
 
                 return strBuilder.ToString();
             }
