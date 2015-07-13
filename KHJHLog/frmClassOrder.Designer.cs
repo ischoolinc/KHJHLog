@@ -42,6 +42,8 @@
             this.colOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLock = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLockComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGradeYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDisplayOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grdClassOrder)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,7 +61,9 @@
             this.Column1,
             this.colOrder,
             this.colLock,
-            this.colLockComment});
+            this.colLockComment,
+            this.colGradeYear,
+            this.colDisplayOrder});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -182,16 +186,29 @@
             this.colLockComment.Name = "colLockComment";
             this.colLockComment.ReadOnly = true;
             // 
+            // colGradeYear
+            // 
+            this.colGradeYear.HeaderText = "年級";
+            this.colGradeYear.Name = "colGradeYear";
+            this.colGradeYear.ReadOnly = true;
+            // 
+            // colDisplayOrder
+            // 
+            this.colDisplayOrder.HeaderText = "班級順序";
+            this.colDisplayOrder.Name = "colDisplayOrder";
+            this.colDisplayOrder.ReadOnly = true;
+            // 
             // frmClassOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(862, 573);
+            this.ClientSize = new System.Drawing.Size(854, 562);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.labelX1);
             this.Controls.Add(this.cmbSchool);
             this.Controls.Add(this.buttonX1);
             this.Controls.Add(this.grdClassOrder);
+            this.DoubleBuffered = true;
             this.MaximumSize = new System.Drawing.Size(870, 600);
             this.MinimumSize = new System.Drawing.Size(870, 600);
             this.Name = "frmClassOrder";
@@ -219,5 +236,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colOrder;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLock;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLockComment;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colGradeYear;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDisplayOrder;
     }
 }

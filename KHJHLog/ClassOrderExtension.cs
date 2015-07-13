@@ -12,8 +12,9 @@ namespace KHJHLog
             Dictionary<string, List<ClassOrder>> DicClassOrders = new Dictionary<string, List<ClassOrder>>();
 
             foreach (ClassOrder vClassOrder in ClassOrders)
-            {
-                string GradeYear = vClassOrder.ClassName.Substring(0, 1);
+            {                
+                //string GradeYear = vClassOrder.ClassName.Substring(0, 1);
+                string GradeYear = vClassOrder.GradeYear.ToString();
 
                 if (!DicClassOrders.ContainsKey(GradeYear))
                     DicClassOrders.Add(GradeYear, new List<ClassOrder>());
@@ -23,11 +24,7 @@ namespace KHJHLog
 
             foreach (string GradeYear in DicClassOrders.Keys)
                 FillClassOrder(DicClassOrders[GradeYear]);
-
-            ClassOrders = ClassOrders
-                .OrderBy(x => x.ClassName)
-                .ThenBy(x=> x.ClassStudentCountValue)
-                .ToList();
+                     
         }
 
         public static int GetInt(this string value)

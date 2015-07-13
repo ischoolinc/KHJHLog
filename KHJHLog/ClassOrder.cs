@@ -47,5 +47,15 @@ namespace KHJHLog
         /// 編班順位
         /// </summary>
         public string ClassOrderNumber { get; set; }
+
+        /// <summary>
+        /// 年級
+        /// </summary>
+        public int GradeYear { get; set; }
+
+        /// <summary>
+        /// 班級顯示順序
+        /// </summary>
+        public int DisplayOrder { get; set; }
     }
 }

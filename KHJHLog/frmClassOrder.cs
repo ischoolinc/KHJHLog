@@ -81,13 +81,14 @@ namespace KHJHLog
 
                         if (!string.IsNullOrWhiteSpace(NumberReduceSum))
                             ClassStudentCount = ClassStudentCount + "(" + StudentCount + "+" + NumberReduceSum + ")";
-
-
-
+                        
                         string NumberReduceCount = elmClass.ElementText("NumberReduceCount");
                         string Lock = elmClass.ElementText("Lock");
                         string Comment = elmClass.ElementText("Comment");
                         string ClassOrder = string.Empty;
+
+                        string DisplayOrder = elmClass.ElementText("DisplayOrder");
+                        string GradeYear = elmClass.ElementText("GradeYear");
 
                         vClassOrder.ClassName = ClassName;
                         vClassOrder.StudentCount = StudentCount;
@@ -98,12 +99,55 @@ namespace KHJHLog
                         vClassOrder.Comment = Comment;
                         vClassOrder.ClassOrderNumber = ClassOrder;
                         vClassOrder.ClassStudentCountValue = StudentCount.GetInt() + NumberReduceSum.GetInt();
+                        if (string.IsNullOrEmpty(DisplayOrder))
+                            vClassOrder.DisplayOrder = 999;
+                        else
+                            vClassOrder.DisplayOrder = int.Parse(DisplayOrder);
+
+                        if (string.IsNullOrEmpty(GradeYear))
+                            vClassOrder.GradeYear = 999;
+                        else
+                            vClassOrder.GradeYear = int.Parse(GradeYear);
                     }
 
                     ClassOrders.CalculateClassOrder();
 
+                    // 判斷排序方式
+                    int NoCount = 0;
+
+                    foreach(ClassOrder co in ClassOrders)
+                    {
+                        int xx;
+                        if (int.TryParse(co.ClassName, out xx))
+                            NoCount++;
+                    }
+
+                    // 有3筆以上用班級名稱排，不然用班級顯示順序
+                    if (NoCount > 3)
+                    {
+                        ClassOrders = (from data in ClassOrders orderby data.GradeYear ascending, int.Parse(data.ClassOrderNumber), data.ClassStudentCountValue, data.ClassName ascending select data).ToList();
+                    }
+                    else
+                    {
+                        ClassOrders = (from data in ClassOrders orderby data.GradeYear ascending, int.Parse(data.ClassOrderNumber), data.ClassStudentCountValue, data.DisplayOrder ascending select data).ToList();
+                    }
+
                     foreach (ClassOrder vClassOrder in ClassOrders)
                     {
+
+                        string vDisplayOrder;
+                        string vGradeYear;
+
+                        if(vClassOrder.DisplayOrder==999)
+                            vDisplayOrder="";
+                        else
+                            vDisplayOrder=vClassOrder.DisplayOrder.ToString();
+
+                        if(vClassOrder.GradeYear==999)
+                            vGradeYear="";
+                        else
+                            vGradeYear=vClassOrder.GradeYear.ToString();
+
                         grdClassOrder.Rows.Add(
                             School,
                             vClassOrder.ClassName,
@@ -112,7 +156,10 @@ namespace KHJHLog
                             vClassOrder.NumberReduceCount,
                             vClassOrder.ClassOrderNumber,
                             vClassOrder.Lock,
-                            vClassOrder.Comment);
+                            vClassOrder.Comment,
+                            vGradeYear,
+                            vDisplayOrder
+                            );
                     }
                 }
                 catch (Exception ve)

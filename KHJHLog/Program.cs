@@ -2,6 +2,10 @@
 using FISCA.Permission;
 using FISCA.Presentation;
 using FISCA.UDT;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml.Linq;
 
 namespace KHJHLog
 {
@@ -15,6 +19,52 @@ namespace KHJHLog
         [MainMethod]
         public static void Main()
         {
+
+
+              #region 處理垃圾資料用
+
+
+            FISCA.UDT.AccessHelper accessHelper = new FISCA.UDT.AccessHelper();
+            string query = "action='匯入更新'";
+            List<SchoolLog> SchoolLogList = accessHelper.Select<SchoolLog>(query);
+
+            List<SchoolLog> WaitDel = new List<SchoolLog>();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (SchoolLog log in SchoolLogList)
+            {
+                sb.Clear();
+                sb.Append("<root>");
+                sb.Append(log.Detail);
+                sb.Append("</root>");
+                try
+                {
+                    bool chkDel = false;
+                    XElement elmRoot = XElement.Parse(sb.ToString());
+                    foreach(XElement elm in elmRoot.Elements("Student"))
+                    {
+                        if (elm.Element("ClassName") != null && elm.Element("NewClassName") != null && elm.Element("StudentStatus") != null && elm.Element("NewStudentStatus") != null)                        
+                        {
+                            if (elm.Element("ClassName").Value == elm.Element("NewClassName").Value && elm.Element("StudentStatus").Value == elm.Element("NewStudentStatus").Value)
+                            {
+                                chkDel = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (chkDel)
+                        WaitDel.Add(log);
+                }
+                catch (Exception ex) { 
+                }
+                
+            }
+
+            #endregion
+
+
+
+
             Campus.Configuration.Config.Initialize(
                 new Campus.Configuration.UserConfigManager(new Campus.Configuration.ConfigProvider_User(), FISCA.Authentication.DSAServices.UserAccount),
                 new Campus.Configuration.ConfigurationManager(new Campus.Configuration.ConfigProvider_App()),

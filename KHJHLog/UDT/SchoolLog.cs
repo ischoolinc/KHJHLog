@@ -44,5 +44,12 @@ namespace KHJHLog
         /// </summary>
         [Field(Field = "date_time")]
         public DateTime DateTime { get; set; }
+
+        /// <summary>
+        /// 明細
+        /// </summary>
+        [Field(Field = "detail")]
+        public string Detail { get; set; }
+
     }
 }
