@@ -92,9 +92,9 @@ namespace KHJHLog
             MainPanel.RibbonBarItems["自動編班"]["查詢編班"].Image = Properties.Resources.classmate_128;
             MainPanel.RibbonBarItems["自動編班"]["查詢編班"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
-            MainPanel.RibbonBarItems["自動編班"]["查詢高關懷學生"].Click += (sender, e) => new frmSpecial().ShowDialog();
-            MainPanel.RibbonBarItems["自動編班"]["查詢高關懷學生"].Image = Properties.Resources.student_a_128;
-            MainPanel.RibbonBarItems["自動編班"]["查詢高關懷學生"].Size = RibbonBarButton.MenuButtonSize.Medium;
+            MainPanel.RibbonBarItems["自動編班"]["查詢特殊身份學生"].Click += (sender, e) => new frmSpecial().ShowDialog();
+            MainPanel.RibbonBarItems["自動編班"]["查詢特殊身份學生"].Image = Properties.Resources.student_a_128;
+            MainPanel.RibbonBarItems["自動編班"]["查詢特殊身份學生"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
             FISCA.Permission.Catalog AdminCatalog = FISCA.Permission.RoleAclSource.Instance["自動編班"]["功能按鈕"];
             AdminCatalog.Add(new RibbonFeature(Permissions.查詢紀錄, "查詢紀錄"));
