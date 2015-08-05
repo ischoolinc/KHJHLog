@@ -487,7 +487,7 @@ namespace KHJHLog
                         Row.Cells["colVerify"].Style.BackColor = Color.White;
                     }
 
-                    IsUpdate = true;
+                    IsUpdate = false;
 
                     ApplicationLog.Log("高雄市自動編班", "修改審核及備註", strLog.ToString());
 
