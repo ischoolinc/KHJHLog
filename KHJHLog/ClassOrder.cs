@@ -34,6 +34,11 @@ namespace KHJHLog
         public string NumberReduceCount { get; set; }
 
         /// <summary>
+        /// 是否有特殊生1=有,0=沒有
+        /// </summary>
+        public int hasNumberReduce { get; set; }
+
+        /// <summary>
         /// 鎖定
         /// </summary>
         public string Lock { get; set; }
@@ -46,7 +51,7 @@ namespace KHJHLog
         /// <summary>
         /// 編班順位
         /// </summary>
-        public string ClassOrderNumber { get; set; }
+        public int ClassOrderNumber { get; set; }     
 
         /// <summary>
         /// 年級

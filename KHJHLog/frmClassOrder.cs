@@ -95,9 +95,20 @@ namespace KHJHLog
                         vClassOrder.ClassStudentCount = ClassStudentCount;
                         vClassOrder.NumberReduceSum = NumberReduceSum;
                         vClassOrder.NumberReduceCount = NumberReduceCount;
+
+                        // 檢查是否有特殊生人數
+                        vClassOrder.hasNumberReduce = 0;
+                        int nrc;
+                        if (int.TryParse(NumberReduceCount, out nrc))
+                            if (nrc > 0)
+                                vClassOrder.hasNumberReduce = 1;
+
                         vClassOrder.Lock = Lock;
                         vClassOrder.Comment = Comment;
-                        vClassOrder.ClassOrderNumber = ClassOrder;
+                        vClassOrder.ClassOrderNumber = 0; 
+                        //if(Lock=="鎖定")
+                        //    vClassOrder.ClassOrderNumber = 999;
+ 
                         vClassOrder.ClassStudentCountValue = StudentCount.GetInt() + NumberReduceSum.GetInt();
                         if (string.IsNullOrEmpty(DisplayOrder))
                             vClassOrder.DisplayOrder = 999;
@@ -125,11 +136,11 @@ namespace KHJHLog
                     // 有3筆以上用班級名稱排，不然用班級顯示順序
                     if (NoCount > 3)
                     {
-                        ClassOrders = (from data in ClassOrders orderby data.GradeYear ascending, int.Parse(data.ClassOrderNumber), data.ClassStudentCountValue, data.ClassName ascending select data).ToList();
+                        ClassOrders = (from data in ClassOrders orderby data.GradeYear ascending, data.ClassOrderNumber, data.ClassStudentCountValue, data.ClassName ascending select data).ToList();
                     }
                     else
                     {
-                        ClassOrders = (from data in ClassOrders orderby data.GradeYear ascending, int.Parse(data.ClassOrderNumber), data.ClassStudentCountValue, data.DisplayOrder ascending select data).ToList();
+                        ClassOrders = (from data in ClassOrders orderby data.GradeYear ascending, data.ClassOrderNumber, data.ClassStudentCountValue, data.DisplayOrder ascending select data).ToList();
                     }
 
                     foreach (ClassOrder vClassOrder in ClassOrders)
@@ -137,6 +148,7 @@ namespace KHJHLog
 
                         string vDisplayOrder;
                         string vGradeYear;
+                        //string vClassOrderNumber;
 
                         if(vClassOrder.DisplayOrder==999)
                             vDisplayOrder="";
@@ -147,6 +159,11 @@ namespace KHJHLog
                             vGradeYear="";
                         else
                             vGradeYear=vClassOrder.GradeYear.ToString();
+
+                        //if (vClassOrder.ClassOrderNumber == 999)
+                        //    vClassOrderNumber = "";
+                        //else
+                        //    vClassOrderNumber = vClassOrder.ClassOrderNumber.ToString();
 
                         grdClassOrder.Rows.Add(
                             School,
