@@ -578,7 +578,8 @@
             this.colVerify.Items.AddRange(new object[] {
             "",
             "通過",
-            "不通過"});
+            "不通過",
+            "修正後通過"});
             this.colVerify.Name = "colVerify";
             this.colVerify.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.colVerify.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
