@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using FISCA.Data;
 using FISCA.DSAClient;
 using FISCA.UDT;
-using KHJHLog.UDT;
+using KHJHLog;
 
 namespace KHJHLog
 {

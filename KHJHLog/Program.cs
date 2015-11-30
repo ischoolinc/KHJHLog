@@ -96,6 +96,11 @@ namespace KHJHLog
             MainPanel.RibbonBarItems["自動編班"]["查詢特殊身份學生"].Image = Properties.Resources.student_a_128;
             MainPanel.RibbonBarItems["自動編班"]["查詢特殊身份學生"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
+            MainPanel.RibbonBarItems["自動編班"]["各校人數超過上限班級統計"].Click += (sender, e) => new frmSchoolClassCount().ShowDialog();
+            MainPanel.RibbonBarItems["自動編班"]["各校人數超過上限班級統計"].Image = Properties.Resources.classmate_128;
+            MainPanel.RibbonBarItems["自動編班"]["各校人數超過上限班級統計"].Size = RibbonBarButton.MenuButtonSize.Medium;
+
+
             FISCA.Permission.Catalog AdminCatalog = FISCA.Permission.RoleAclSource.Instance["自動編班"]["功能按鈕"];
             AdminCatalog.Add(new RibbonFeature(Permissions.查詢紀錄, "查詢紀錄"));
             AdminCatalog.Add(new RibbonFeature(Permissions.動作設定, "動作設定"));

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using FISCA.DSAClient;
 using FISCA.UDT;
-using KHJHLog.UDT;
+using KHJHLog;
 
 
 namespace KHJHLog

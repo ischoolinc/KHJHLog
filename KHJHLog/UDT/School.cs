@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using FISCA.UDT;
 
-namespace KHJHLog.UDT
+namespace KHJHLog
 {
     [TableName("school")]
     public class School : ActiveRecord

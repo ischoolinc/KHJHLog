@@ -11,7 +11,7 @@ using Campus.Configuration;
 using FISCA.Data;
 using FISCA.LogAgent;
 using FISCA.UDT;
-using KHJHLog.UDT;
+using KHJHLog;
 using System.Diagnostics;
 
 

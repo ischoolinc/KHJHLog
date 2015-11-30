@@ -138,6 +138,12 @@
     <Compile Include="frmDetailLog.Designer.cs">
       <DependentUpon>frmDetailLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSchoolClassCount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSchoolClassCount.Designer.cs">
+      <DependentUpon>frmSchoolClassCount.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSpecial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +170,7 @@
     <Compile Include="QueryLog.Designer.cs">
       <DependentUpon>QueryLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="SchoolClassStudentCount.cs" />
     <Compile Include="UDT\Action.cs" />
     <Compile Include="UDT\School.cs" />
     <Compile Include="UDT\SchoolLog.cs" />
@@ -183,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmDetailLog.resx">
       <DependentUpon>frmDetailLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSchoolClassCount.resx">
+      <DependentUpon>frmSchoolClassCount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSpecial.resx">
       <DependentUpon>frmSpecial.cs</DependentUpon>
@@ -204,6 +214,7 @@
     <None Include="Resources\學生成績通知單%283-6%29.doc" />
     <None Include="Resources\學生成績通知單%287-8%29.doc" />
     <None Include="Resources\學生成績通知單%289-12%29.doc" />
+    <None Include="Template\各校人數超過上限班級統計樣版.xls" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\achievement_config_128.png" />
