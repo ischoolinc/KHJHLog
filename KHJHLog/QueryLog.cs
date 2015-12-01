@@ -24,6 +24,8 @@ namespace KHJHLog
         private AccessHelper accesshelper = new AccessHelper();
         private QueryHelper queryhelper = new QueryHelper();
         private ConfigData config = Campus.Configuration.Config.User["Option"];
+
+        
         private Color UpdateColor = Color.FromArgb(255, 255, 192);
         private bool IsUpdate = false;
 

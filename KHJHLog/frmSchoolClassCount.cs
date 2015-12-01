@@ -21,9 +21,14 @@ namespace KHJHLog
         Dictionary<string, string> _SchoolDict;
         List<SchoolClassStudentCount> _SchoolClassStudentCountList;
         private int _ClassStudentMax = 0;
+        List<string> _SelectSchoolList;
+
+        Campus.Configuration.ConfigData cd = Campus.Configuration.Config.User["SchoolClassCountOption"];
         public frmSchoolClassCount()
         {
             InitializeComponent();
+            
+            _SelectSchoolList = new List<string>();
             _SchoolDict = new Dictionary<string, string>();
             _SchoolClassStudentCountList = new List<SchoolClassStudentCount>();
             _bgWorker = new BackgroundWorker();
@@ -61,27 +66,19 @@ namespace KHJHLog
             int cc = 5;
             _bgWorker.ReportProgress(1);
             // 取得學校 UDT 並加入 Dict
-            AccessHelper accHepler = new AccessHelper();
-            _SchoolDict.Clear();
-            List<School> SchoolList = accHepler.Select<School>();
-
-      
-            foreach(School sc in SchoolList)
-            {
-                if (sc.Title.Contains("測試"))
-                    continue;
-      
-                if (!_SchoolDict.ContainsKey(sc.Title))
-                    _SchoolDict.Add(sc.Title, sc.DSNS);
-            }
-
             _SchoolClassStudentCountList.Clear();
-
+            Dictionary<string, string> SelectSchoolDict = new Dictionary<string, string>();
+            foreach(string key in _SchoolDict.Keys)
+            {
+                if (_SelectSchoolList.Contains(key))
+                    SelectSchoolDict.Add(key, _SchoolDict[key]);
+            }
+            
             _bgWorker.ReportProgress(5);
 
-            foreach(string ScTitle in _SchoolDict.Keys)
+            foreach (string ScTitle in SelectSchoolDict.Keys)
             {
-                string ScDSNS = _SchoolDict[ScTitle];
+                string ScDSNS = SelectSchoolDict[ScTitle];
                 try
                 {
                     Connection con = new Connection();
@@ -150,6 +147,45 @@ namespace KHJHLog
         {
             // 上限預設值
             iptClassBase.Value = 30;
+            
+
+            // 取得學校並放入選單
+            AccessHelper accHepler = new AccessHelper();
+            _SchoolDict.Clear();
+            List<School> SchoolList = accHepler.Select<School>();
+            SchoolList = (from data in SchoolList orderby data.Title ascending select data).ToList();
+
+            foreach (School sc in SchoolList)
+            {
+                if (sc.Title.Contains("測試"))
+                    continue;
+
+                if (!_SchoolDict.ContainsKey(sc.Title))
+                    _SchoolDict.Add(sc.Title, sc.DSNS);
+            }
+
+            // 讀取設定值
+            int maxC;
+            if (int.TryParse(cd["ClassStudentMax"], out maxC))
+                iptClassBase.Value = maxC;
+
+            List<string> ssc = cd["SelectSchool"].Split(',').ToList();
+            if (ssc == null)
+                ssc = new List<string>();
+
+            foreach(string sc in _SchoolDict.Keys)
+            {
+                ListViewItem lvi = new ListViewItem();
+                lvi.Name = sc;
+                lvi.Text = sc;
+                if (ssc.Contains(lvi.Text))
+                    lvi.Checked = true;
+                else
+                    lvi.Checked = false;
+                lvSchool.Items.Add(lvi);
+            }
+
+
         }
 
         private void btnQuery_Click(object sender, EventArgs e)
@@ -159,11 +195,25 @@ namespace KHJHLog
                 FISCA.Presentation.Controls.MsgBox.Show("Greening Passport 認證失敗，請檢查登入帳號!");
             } else
             {
-                btnExport.Enabled = btnQuery.Enabled = false;
-                dgData.Rows.Clear();
-                // 人數上限
-                _ClassStudentMax = iptClassBase.Value;
-                _bgWorker.RunWorkerAsync();
+                if(lvSchool.CheckedItems.Count>0)
+                {
+                    _SelectSchoolList.Clear();
+                    foreach(ListViewItem lvi in lvSchool.CheckedItems)
+                        _SelectSchoolList.Add(lvi.Text);
+
+                    btnExport.Enabled = btnQuery.Enabled = false;
+                    dgData.Rows.Clear();
+                    // 人數上限
+                    _ClassStudentMax = iptClassBase.Value;
+                    // 儲存畫面值
+                    cd["ClassStudentMax"] = _ClassStudentMax.ToString();
+                    cd["SelectSchool"] = string.Join(",", _SelectSchoolList.ToArray());
+                    cd.Save();
+                    _bgWorker.RunWorkerAsync();
+                }else
+                {
+                    FISCA.Presentation.Controls.MsgBox.Show("請勾選學校.");
+                }                
             }
         }
 
@@ -190,6 +240,12 @@ namespace KHJHLog
                Utility.ExprotXls("各校人數超過上限班級統計", wb);
                btnExport.Enabled = true;
            }
+        }
+
+        private void chkSchool_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (ListViewItem lvi in lvSchool.Items)
+                lvi.Checked = chkSchool.Checked;
         }
     }
 }
