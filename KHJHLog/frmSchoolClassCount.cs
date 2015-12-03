@@ -157,9 +157,6 @@ namespace KHJHLog
 
             foreach (School sc in SchoolList)
             {
-                if (sc.Title.Contains("測試"))
-                    continue;
-
                 if (!_SchoolDict.ContainsKey(sc.Title))
                     _SchoolDict.Add(sc.Title, sc.DSNS);
             }
