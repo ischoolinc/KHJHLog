@@ -141,6 +141,29 @@ namespace KHJHLog
 
                 return strBuilder.ToString();
             }
+            else if (Action.Equals("取消特殊身分"))
+            {
+                //<Content>
+                // <IDNumber>Q101000099</IDNumber>
+                // <StudentNumber>11009</StudentNumber>
+                // <StudentName>林九寶</StudentName>
+                // <ClassName>330</ClassName>
+                // <SeatNo>9</SeatNo>
+                // <NumberReduce>0</NumberReduce>
+                // <DocNo>456</DocNo>
+                //</Content>
+
+                strBuilder.AppendLine(string.Format("取消特殊身分學生「{0}」", elmContent.ElementText("StudentName")));
+                strBuilder.AppendLine(string.Format("身分證「{0}」", elmContent.ElementText("IDNumber")));
+                strBuilder.AppendLine(string.Format("學號「{0}」", elmContent.ElementText("StudentNumber")));
+                strBuilder.AppendLine(string.Format("班級「{0}」", elmContent.ElementText("ClassName")));
+                strBuilder.AppendLine(string.Format("座號「{0}」", elmContent.ElementText("SeatNo")));
+                strBuilder.AppendLine(string.Format("文號「{0}」", elmContent.ElementText("DocNo")));
+                strBuilder.AppendLine(string.Format("減免人數「{0}」", elmContent.ElementText("NumberReduce")));
+                strBuilder.AppendLine(string.Format("相關證明文件網址「{0}」", elmContent.ElementText("EDoc")));
+
+                return strBuilder.ToString();
+            }
             else if (Action.Equals("特殊狀態變更"))
             {
 
