@@ -120,6 +120,12 @@
     <Compile Include="frmActionList.Designer.cs">
       <DependentUpon>frmActionList.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmChangeVeritfySubForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChangeVeritfySubForm.Designer.cs">
+      <DependentUpon>frmChangeVeritfySubForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmClassOrder.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,6 +156,12 @@
     <Compile Include="frmSpecial.Designer.cs">
       <DependentUpon>frmSpecial.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmStudentChangeClass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStudentChangeClass.Designer.cs">
+      <DependentUpon>frmStudentChangeClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTestPassport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,6 +183,7 @@
       <DependentUpon>QueryLog.cs</DependentUpon>
     </Compile>
     <Compile Include="SchoolClassStudentCount.cs" />
+    <Compile Include="StudentChangeClass.cs" />
     <Compile Include="UDT\Action.cs" />
     <Compile Include="UDT\School.cs" />
     <Compile Include="UDT\SchoolLog.cs" />
@@ -181,6 +194,9 @@
   <ItemGroup>
     <EmbeddedResource Include="frmActionList.resx">
       <DependentUpon>frmActionList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChangeVeritfySubForm.resx">
+      <DependentUpon>frmChangeVeritfySubForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmClassOrder.resx">
       <DependentUpon>frmClassOrder.cs</DependentUpon>
@@ -196,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSpecial.resx">
       <DependentUpon>frmSpecial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStudentChangeClass.resx">
+      <DependentUpon>frmStudentChangeClass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTestPassport.resx">
       <DependentUpon>frmTestPassport.cs</DependentUpon>

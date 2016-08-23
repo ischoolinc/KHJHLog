@@ -324,7 +324,7 @@ namespace KHJHLog
 
                 string SchoolName = vSchool != null ? vSchool.Title : DSNS;
 
-                string SearchContent = SchoolName + string.Empty + Content;
+                string SearchContent = SchoolName + string.Empty + Content+string.Empty+IsVerify;
                 string Keyword = txtKeyword.Text;
 
                 if (IsKeywordContent(Keyword, SearchContent))
@@ -523,6 +523,24 @@ namespace KHJHLog
                 {
                     MessageBox.Show("更新錯誤，錯誤訊息如下：" + System.Environment.NewLine + ve.Message);
                 }
+            }
+        }
+
+        private void 批次調整審核結果ToolStripMenuItem_Click(object sender, EventArgs e)
+        {            
+            frmChangeVeritfySubForm cvsf = new frmChangeVeritfySubForm();
+            if(cvsf.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
+            {
+                string SelectString = "";
+                SelectString = cvsf.GetSelectItem();
+
+                foreach(DataGridViewRow drv in grdLog.SelectedRows)
+                {
+                    if (drv.IsNewRow)
+                        continue;
+
+                    drv.Cells[colVerify.Index].Value = SelectString;
+                }                
             }
         }
     }

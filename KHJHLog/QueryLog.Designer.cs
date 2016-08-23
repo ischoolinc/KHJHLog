@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -37,6 +38,14 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.grdLog = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.colID = new DevComponents.DotNetBar.Controls.DataGridViewLabelXColumn();
+            this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSchool = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAction = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEDoc = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.colVerify = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnExport = new DevComponents.DotNetBar.ButtonX();
             this.btnClose = new DevComponents.DotNetBar.ButtonX();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
@@ -53,20 +62,15 @@
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
             this.chkSelectAll = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.btnSave = new DevComponents.DotNetBar.ButtonX();
-            this.colID = new DevComponents.DotNetBar.Controls.DataGridViewLabelXColumn();
-            this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSchool = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAction = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colEDoc = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.colVerify = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.colComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.批次調整審核結果ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.grdLog)).BeginInit();
             this.groupPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dateEnd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateStart)).BeginInit();
             this.groupPanel2.SuspendLayout();
             this.groupPanel3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // grdLog
@@ -96,6 +100,7 @@
             this.colEDoc,
             this.colVerify,
             this.colComment});
+            this.grdLog.ContextMenuStrip = this.contextMenuStrip1;
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -116,6 +121,87 @@
             this.grdLog.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdLog_CellEndEdit);
             this.grdLog.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdLog_CellValueChanged);
             this.grdLog.DoubleClick += new System.EventHandler(this.grdLog_DoubleClick);
+            // 
+            // colID
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.colID.DefaultCellStyle = dataGridViewCellStyle2;
+            this.colID.HeaderText = "系統編號";
+            this.colID.Name = "colID";
+            this.colID.ReadOnly = true;
+            this.colID.Visible = false;
+            // 
+            // colDate
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.colDate.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colDate.HeaderText = "日期時間";
+            this.colDate.MinimumWidth = 150;
+            this.colDate.Name = "colDate";
+            this.colDate.ReadOnly = true;
+            this.colDate.Width = 150;
+            // 
+            // colSchool
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.colSchool.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colSchool.HeaderText = "學校";
+            this.colSchool.Name = "colSchool";
+            this.colSchool.ReadOnly = true;
+            // 
+            // colAction
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.colAction.DefaultCellStyle = dataGridViewCellStyle5;
+            this.colAction.HeaderText = "動作";
+            this.colAction.Name = "colAction";
+            this.colAction.ReadOnly = true;
+            // 
+            // colContent
+            // 
+            this.colContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.colContent.DefaultCellStyle = dataGridViewCellStyle6;
+            this.colContent.HeaderText = "學校端摘要";
+            this.colContent.MinimumWidth = 200;
+            this.colContent.Name = "colContent";
+            this.colContent.ReadOnly = true;
+            // 
+            // colEDoc
+            // 
+            this.colEDoc.HeaderText = "相關證明文件網址";
+            this.colEDoc.Name = "colEDoc";
+            this.colEDoc.ReadOnly = true;
+            this.colEDoc.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colEDoc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.colEDoc.Width = 140;
+            // 
+            // colVerify
+            // 
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.colVerify.DefaultCellStyle = dataGridViewCellStyle7;
+            this.colVerify.HeaderText = "審核結果";
+            this.colVerify.Items.AddRange(new object[] {
+            "",
+            "通過",
+            "不通過",
+            "待修正"});
+            this.colVerify.Name = "colVerify";
+            this.colVerify.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colVerify.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colComment
+            // 
+            this.colComment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colComment.HeaderText = "局端備註";
+            this.colComment.MinimumWidth = 100;
+            this.colComment.Name = "colComment";
+            this.colComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colComment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // btnExport
             // 
@@ -512,86 +598,19 @@
             this.btnSave.Text = "儲存";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // colID
+            // contextMenuStrip1
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.colID.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colID.HeaderText = "系統編號";
-            this.colID.Name = "colID";
-            this.colID.ReadOnly = true;
-            this.colID.Visible = false;
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.批次調整審核結果ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(171, 26);
             // 
-            // colDate
+            // 批次調整審核結果ToolStripMenuItem
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.colDate.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colDate.HeaderText = "日期時間";
-            this.colDate.MinimumWidth = 150;
-            this.colDate.Name = "colDate";
-            this.colDate.ReadOnly = true;
-            this.colDate.Width = 150;
-            // 
-            // colSchool
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.colSchool.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colSchool.HeaderText = "學校";
-            this.colSchool.Name = "colSchool";
-            this.colSchool.ReadOnly = true;
-            // 
-            // colAction
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.colAction.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colAction.HeaderText = "動作";
-            this.colAction.Name = "colAction";
-            this.colAction.ReadOnly = true;
-            // 
-            // colContent
-            // 
-            this.colContent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.colContent.DefaultCellStyle = dataGridViewCellStyle6;
-            this.colContent.HeaderText = "學校端摘要";
-            this.colContent.MinimumWidth = 200;
-            this.colContent.Name = "colContent";
-            this.colContent.ReadOnly = true;
-            // 
-            // colEDoc
-            // 
-            this.colEDoc.HeaderText = "相關證明文件網址";
-            this.colEDoc.Name = "colEDoc";
-            this.colEDoc.ReadOnly = true;
-            this.colEDoc.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colEDoc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.colEDoc.Width = 140;
-            // 
-            // colVerify
-            // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.colVerify.DefaultCellStyle = dataGridViewCellStyle7;
-            this.colVerify.HeaderText = "審核結果";
-            this.colVerify.Items.AddRange(new object[] {
-            "",
-            "通過",
-            "不通過",
-            "待修正"});
-            this.colVerify.Name = "colVerify";
-            this.colVerify.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colVerify.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // colComment
-            // 
-            this.colComment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colComment.HeaderText = "局端備註";
-            this.colComment.MinimumWidth = 100;
-            this.colComment.Name = "colComment";
-            this.colComment.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colComment.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.批次調整審核結果ToolStripMenuItem.Name = "批次調整審核結果ToolStripMenuItem";
+            this.批次調整審核結果ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.批次調整審核結果ToolStripMenuItem.Text = "批次調整審核結果";
+            this.批次調整審核結果ToolStripMenuItem.Click += new System.EventHandler(this.批次調整審核結果ToolStripMenuItem_Click);
             // 
             // QueryLog
             // 
@@ -619,6 +638,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dateStart)).EndInit();
             this.groupPanel2.ResumeLayout(false);
             this.groupPanel3.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -651,5 +671,7 @@
         private System.Windows.Forms.DataGridViewLinkColumn colEDoc;
         private System.Windows.Forms.DataGridViewComboBoxColumn colVerify;
         private System.Windows.Forms.DataGridViewTextBoxColumn colComment;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 批次調整審核結果ToolStripMenuItem;
     }
 }
