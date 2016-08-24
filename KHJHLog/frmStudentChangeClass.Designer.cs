@@ -35,10 +35,6 @@
             this.btnQuery = new DevComponents.DotNetBar.ButtonX();
             this.btnExport = new DevComponents.DotNetBar.ButtonX();
             this.dgData = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.cboStudFrom = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.cboStudTo = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
-            this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.colSchool = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colStudName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,6 +44,8 @@
             this.colClassOrder1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colClassOrder2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colClassOrder3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.txtClassComment = new DevComponents.DotNetBar.Controls.TextBoxX();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -165,60 +163,6 @@
             this.dgData.Size = new System.Drawing.Size(859, 294);
             this.dgData.TabIndex = 8;
             // 
-            // cboStudFrom
-            // 
-            this.cboStudFrom.DisplayMember = "Text";
-            this.cboStudFrom.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cboStudFrom.FormattingEnabled = true;
-            this.cboStudFrom.ItemHeight = 19;
-            this.cboStudFrom.Location = new System.Drawing.Point(87, 35);
-            this.cboStudFrom.Name = "cboStudFrom";
-            this.cboStudFrom.Size = new System.Drawing.Size(121, 25);
-            this.cboStudFrom.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cboStudFrom.TabIndex = 14;
-            // 
-            // cboStudTo
-            // 
-            this.cboStudTo.DisplayMember = "Text";
-            this.cboStudTo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cboStudTo.FormattingEnabled = true;
-            this.cboStudTo.ItemHeight = 19;
-            this.cboStudTo.Location = new System.Drawing.Point(267, 35);
-            this.cboStudTo.Name = "cboStudTo";
-            this.cboStudTo.Size = new System.Drawing.Size(121, 25);
-            this.cboStudTo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cboStudTo.TabIndex = 15;
-            // 
-            // labelX1
-            // 
-            this.labelX1.AutoSize = true;
-            this.labelX1.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX1.BackgroundStyle.Class = "";
-            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Location = new System.Drawing.Point(34, 37);
-            this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(47, 21);
-            this.labelX1.TabIndex = 16;
-            this.labelX1.Text = "班級由";
-            // 
-            // labelX2
-            // 
-            this.labelX2.AutoSize = true;
-            this.labelX2.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.labelX2.BackgroundStyle.Class = "";
-            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX2.Location = new System.Drawing.Point(214, 37);
-            this.labelX2.Name = "labelX2";
-            this.labelX2.Size = new System.Drawing.Size(47, 21);
-            this.labelX2.TabIndex = 17;
-            this.labelX2.Text = "調整成";
-            // 
             // colSchool
             // 
             this.colSchool.HeaderText = "學校名稱";
@@ -273,15 +217,40 @@
             this.colClassOrder3.Name = "colClassOrder3";
             this.colClassOrder3.ReadOnly = true;
             // 
+            // labelX1
+            // 
+            this.labelX1.AutoSize = true;
+            this.labelX1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX1.BackgroundStyle.Class = "";
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.Location = new System.Drawing.Point(34, 37);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(60, 21);
+            this.labelX1.TabIndex = 16;
+            this.labelX1.Text = "班級備註";
+            // 
+            // txtClassComment
+            // 
+            // 
+            // 
+            // 
+            this.txtClassComment.Border.Class = "TextBoxBorder";
+            this.txtClassComment.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.txtClassComment.Location = new System.Drawing.Point(101, 35);
+            this.txtClassComment.Name = "txtClassComment";
+            this.txtClassComment.Size = new System.Drawing.Size(127, 25);
+            this.txtClassComment.TabIndex = 17;
+            // 
             // frmStudentChangeClass
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 568);
-            this.Controls.Add(this.labelX2);
+            this.Controls.Add(this.txtClassComment);
             this.Controls.Add(this.labelX1);
-            this.Controls.Add(this.cboStudTo);
-            this.Controls.Add(this.cboStudFrom);
             this.Controls.Add(this.chkSchool);
             this.Controls.Add(this.lvSchool);
             this.Controls.Add(this.btnExit);
@@ -306,10 +275,7 @@
         private DevComponents.DotNetBar.ButtonX btnQuery;
         private DevComponents.DotNetBar.ButtonX btnExport;
         private DevComponents.DotNetBar.Controls.DataGridViewX dgData;
-        private DevComponents.DotNetBar.Controls.ComboBoxEx cboStudFrom;
-        private DevComponents.DotNetBar.Controls.ComboBoxEx cboStudTo;
         private DevComponents.DotNetBar.LabelX labelX1;
-        private DevComponents.DotNetBar.LabelX labelX2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSchool;
         private System.Windows.Forms.DataGridViewTextBoxColumn colStudName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colClassName;
@@ -319,6 +285,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colClassOrder1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colClassOrder2;
         private System.Windows.Forms.DataGridViewTextBoxColumn colClassOrder3;
+        private DevComponents.DotNetBar.Controls.TextBoxX txtClassComment;
 
     }
 }

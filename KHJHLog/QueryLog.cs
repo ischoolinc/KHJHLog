@@ -25,6 +25,7 @@ namespace KHJHLog
         private QueryHelper queryhelper = new QueryHelper();
         private ConfigData config = Campus.Configuration.Config.User["Option"];
 
+        List<string> _VerifyString = new List<string>();
         
         private Color UpdateColor = Color.FromArgb(255, 255, 192);
         private bool IsUpdate = false;
@@ -201,7 +202,8 @@ namespace KHJHLog
             else
                 return Content;
         }
-
+                      
+        
         private bool IsKeywordContent(string Keyword,string Content)
         {
             if (string.IsNullOrEmpty(Keyword))
@@ -212,11 +214,20 @@ namespace KHJHLog
             {
                 string[] Keywords = Keyword.Split(new char[] { ',' });
 
+                for (int i = 0; i < Keywords.Length; i++)
+                {
+                    if (Keywords[i] == "通過" || Keywords[i] == "不通過" || Keywords[i] == "待修正")
+                        if (!_VerifyString.Contains(Keywords[i]))
+                            _VerifyString.Add(Keywords[i]);
+                }
+
+
                 //當是OR的情況，只要有其中一個符合即傳回true
                 for (int i = 0; i < Keywords.Length; i++)
                 {
                     if (Content.Contains(Keywords[i]))
                         return true;
+                    
                 }
 
                 return false;
@@ -224,6 +235,13 @@ namespace KHJHLog
             //空白是AND
             {
                 string[] Keywords = Keyword.Split(new char[] {' '});
+                for (int i = 0; i < Keywords.Length; i++)
+                {
+                    if (Keywords[i] == "通過" || Keywords[i] == "不通過" || Keywords[i] == "待修正")
+                        if (!_VerifyString.Contains(Keywords[i]))
+                            _VerifyString.Add(Keywords[i]);
+                }
+
 
                 //當是And的情況，只要有其中一個不符合即傳回false
                 for (int i = 0; i < Keywords.Length; i++)
@@ -293,7 +311,7 @@ namespace KHJHLog
             List<School> Schools = accesshelper.Select<School>();
 
             StringBuilder sb = new StringBuilder();
-
+            
             foreach (DataRow row in tblSchoolLog.Rows)
             {                
                 string UID = row.Field<string>("uid");
@@ -326,18 +344,37 @@ namespace KHJHLog
 
                 string SearchContent = SchoolName + string.Empty + Content+string.Empty+IsVerify;
                 string Keyword = txtKeyword.Text;
-
+                _VerifyString.Clear();
                 if (IsKeywordContent(Keyword, SearchContent))
                 {
-                    int RowIndex = grdLog.Rows.Add(
-                        UID,
-                        Date,
-                        SchoolName,
-                        Action,
-                        Content,
-                        EDoc,
-                        IsVerify,
-                        Comment);
+                    // 當有輸入審核結果 Keyword 完全比對
+                    if(_VerifyString.Count>0)             
+                    {
+                        if(_VerifyString.Contains(IsVerify))
+                        {
+                            int RowIndex = grdLog.Rows.Add(
+                                UID,
+                                Date,
+                                SchoolName,
+                                Action,
+                                Content,
+                                EDoc,
+                                IsVerify,
+                                Comment);
+                        }
+
+                    }else
+                    {
+                        int RowIndex = grdLog.Rows.Add(
+                                UID,
+                                Date,
+                                SchoolName,
+                                Action,
+                                Content,
+                                EDoc,
+                                IsVerify,
+                                Comment);
+                    }                
                 }
             }
         }
