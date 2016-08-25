@@ -15,9 +15,9 @@ namespace KHJHLog
 
         public string OldClassName { get; set; }
 
-        public string oldClassContent { get; set; }
+        public string OldClassComment { get; set; }
 
-        public string ClassContent { get; set; }
+        public string ClassComment { get; set; }
 
         public string ClassOrderName1 { get; set; }
 

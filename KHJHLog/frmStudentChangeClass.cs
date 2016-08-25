@@ -24,6 +24,9 @@ namespace KHJHLog
         Campus.Configuration.ConfigData cd = Campus.Configuration.Config.User["SchoolStudentClassChangeOption"];
         List<StudentChangeClass> _StudentChangeClassList;
 
+        string _ClassComment = "", _OldClassComment = "",_ClassName="",_OldClassName="";
+
+        bool _chkOp1 = false, _chkOp2 = false;
 
         public frmStudentChangeClass()
         {
@@ -55,8 +58,8 @@ namespace KHJHLog
                     dgData.Rows[rowIdx].Cells[colSchool.Index].Value = scc.SchoolName;
                     dgData.Rows[rowIdx].Cells[colClassName.Index].Value = scc.ClassName;
                     dgData.Rows[rowIdx].Cells[colOldClassName.Index].Value = scc.OldClassName;
-                    dgData.Rows[rowIdx].Cells[colOldClassContent.Index].Value = scc.oldClassContent;
-                    dgData.Rows[rowIdx].Cells[colClassContent.Index].Value = scc.ClassContent;
+                    dgData.Rows[rowIdx].Cells[colOldClassContent.Index].Value = scc.OldClassComment;
+                    dgData.Rows[rowIdx].Cells[colClassContent.Index].Value = scc.ClassComment;
                     dgData.Rows[rowIdx].Cells[colClassOrder1.Index].Value = scc.ClassOrderName1;
                     dgData.Rows[rowIdx].Cells[colClassOrder2.Index].Value = scc.ClassOrderName2;
                     dgData.Rows[rowIdx].Cells[colClassOrder3.Index].Value = scc.ClassOrderName3;
@@ -112,8 +115,8 @@ namespace KHJHLog
                         scc.OldClassName = elmStudent.ElementText("OldClassName");
                         scc.SchoolName = ScDSNS;
                         scc.StudentName = elmStudent.ElementText("StudentName");
-                        scc.oldClassContent = elmStudent.ElementText("OldClassComment");
-                        scc.ClassContent = elmStudent.ElementText("ClassComment");
+                        scc.OldClassComment = elmStudent.ElementText("OldClassComment");
+                        scc.ClassComment = elmStudent.ElementText("ClassComment");
 
                         if (elmStudent.Element("Content")!=null)
                         {
@@ -130,7 +133,29 @@ namespace KHJHLog
                             }
                         }                        
                         
-                        _StudentChangeClassList.Add(scc);
+                        if(_chkOp1 == false && _chkOp2 == false)
+                            _StudentChangeClassList.Add(scc);
+                        else
+                        {
+                            if(_chkOp1 == true  && _chkOp2 == true)
+                            {
+                                if (scc.ClassComment == _ClassComment && scc.OldClassComment == _OldClassComment && scc.ClassName == _ClassName && scc.OldClassName == _OldClassName)
+                                {
+                                    _StudentChangeClassList.Add(scc);
+                                }
+
+                            }else
+                            {
+                                if (_chkOp1 == true && scc.ClassComment == _ClassComment && scc.OldClassComment == _OldClassComment)
+                                {
+                                    _StudentChangeClassList.Add(scc);
+                                }
+                                if (_chkOp2 == true && scc.ClassName == _ClassName && scc.OldClassName == _OldClassName)
+                                {
+                                    _StudentChangeClassList.Add(scc);
+                                }
+                            }
+                        }
                     }
 
                     cc++;
@@ -199,6 +224,22 @@ namespace KHJHLog
             }
             else
             {
+                _ClassComment = txtClassComment.Text;
+                _OldClassComment = txtOldClassComment.Text;
+                _ClassName = txtClassName.Text;
+                _OldClassName = txtOldClassName.Text;
+                _chkOp1 = chkOp1.Checked;
+                _chkOp2 = chkOp2.Checked;
+
+                cd["ClassComment"] = _ClassComment;
+                cd["ClassComment"] = _ClassComment;
+                cd["OldClassComment"] = _OldClassComment;
+                cd["ClassName"] = _ClassName;
+                cd["OldClassName"] = _OldClassName;
+                cd["chkOp1"] = chkOp1.Checked.ToString();
+                cd["chkOp2"] = chkOp2.Checked.ToString();
+               
+
                 if (lvSchool.CheckedItems.Count > 0)
                 {
                     _SelectSchoolList.Clear();
@@ -229,11 +270,28 @@ namespace KHJHLog
 
             foreach (School sc in SchoolList)
             {
+                if (sc.Title.Contains("範本"))
+                    continue;
+
+                if (sc.DSNS.Contains("dev."))
+                    continue;
+
                 if (!_SchoolDict.ContainsKey(sc.Title))
                     _SchoolDict.Add(sc.Title, sc.DSNS);
             }
 
             // 讀取設定值           
+            txtClassComment.Text = cd["ClassComment"];
+            txtOldClassComment.Text = cd["OldClassComment"];
+            txtClassName.Text = cd["ClassName"];
+            txtOldClassName.Text = cd["OldClassName"];
+            bool c1, c2;
+            if(bool.TryParse(cd["chkOp1"],out c1))
+                chkOp1.Checked = c1;
+
+            if (bool.TryParse(cd["chkOp2"], out c2))
+                chkOp2.Checked = c2;
+
             List<string> ssc = cd["SelectSchool"].Split(',').ToList();
             if (ssc == null)
                 ssc = new List<string>();
