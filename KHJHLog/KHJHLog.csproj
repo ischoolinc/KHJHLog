@@ -187,6 +187,7 @@
     <Compile Include="UDT\Action.cs" />
     <Compile Include="UDT\School.cs" />
     <Compile Include="UDT\SchoolLog.cs" />
+    <Compile Include="UDT\upload_url.cs" />
     <Compile Include="UpdateHelper.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="XExtensions.cs" />
