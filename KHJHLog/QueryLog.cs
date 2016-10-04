@@ -116,6 +116,16 @@ namespace KHJHLog
                 strBuilder.AppendLine(string.Format("年級「{0}」", elmContent.ElementText("GradeYear")));
                 strBuilder.AppendLine(string.Format("備註「{0}」", elmContent.ElementText("Comment")));
                 strBuilder.AppendLine(string.Format("相關證明文件網址「{0}」", elmContent.ElementText("EDoc")));
+                
+                // 顯示第二、三優先順位班級
+                if (elmContent.Element("SecondPriorityClassName") != null)
+                {
+                    strBuilder.AppendLine(string.Format("第二優先順位班級「{0}」", elmContent.ElementText("SecondPriorityClassName")));
+                }
+                if (elmContent.Element("ThridPriorityClassName") != null)
+                {
+                    strBuilder.AppendLine(string.Format("第三優先順位班級「{0}」", elmContent.ElementText("ThridPriorityClassName")));
+                }
 
                 return strBuilder.ToString();
             }
