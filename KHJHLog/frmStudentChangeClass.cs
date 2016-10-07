@@ -113,7 +113,7 @@ namespace KHJHLog
                         StudentChangeClass scc = new StudentChangeClass();
                         scc.ClassName = elmStudent.ElementText("ClassName");
                         scc.OldClassName = elmStudent.ElementText("OldClassName");
-                        scc.SchoolName = ScDSNS;
+                        scc.SchoolName = ScTitle;
                         scc.StudentName = elmStudent.ElementText("StudentName");
                         scc.OldClassComment = elmStudent.ElementText("OldClassComment");
                         scc.ClassComment = elmStudent.ElementText("ClassComment");
