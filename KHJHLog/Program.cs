@@ -101,6 +101,11 @@ namespace KHJHLog
             MainPanel.RibbonBarItems["自動編班"]["各校人數超過上限班級統計"].Image = Properties.Resources.classmate_128;
             MainPanel.RibbonBarItems["自動編班"]["各校人數超過上限班級統計"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
+            // 2017/1/4 穎驊新增 局端可列印統計 全市班級類別統計
+            MainPanel.RibbonBarItems["自動編班"]["各校人數班級類別統計"].Click += (sender, e) => new frmSchoolClassTypeCount().ShowDialog();
+            MainPanel.RibbonBarItems["自動編班"]["各校人數班級類別統計"].Image = Properties.Resources.classmate_128;
+            MainPanel.RibbonBarItems["自動編班"]["各校人數班級類別統計"].Size = RibbonBarButton.MenuButtonSize.Medium;
+
             MainPanel.RibbonBarItems["自動編班"]["查詢學生調整班級"].Click += (sender, e) => new frmStudentChangeClass().ShowDialog();
             MainPanel.RibbonBarItems["自動編班"]["查詢學生調整班級"].Image = Properties.Resources.classmate_128;
             MainPanel.RibbonBarItems["自動編班"]["查詢學生調整班級"].Size = RibbonBarButton.MenuButtonSize.Medium;
