@@ -115,7 +115,7 @@ namespace KHJHLog
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            DataGridViewExport.Export(grdClassOrder, "高關懷學生");
+            DataGridViewExport.Export(grdClassOrder, "特殊生與高關懷學生");
         }
     }
 }
