@@ -9,6 +9,11 @@ namespace KHJHLog
         public string ClassName { get; set; }
 
         /// <summary>
+        /// 班導師
+        /// </summary>
+        public string TeacherName { get; set; }
+
+        /// <summary>
         /// 實際人數
         /// </summary>
         public string StudentCount { get; set; }

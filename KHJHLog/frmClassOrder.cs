@@ -75,6 +75,7 @@ namespace KHJHLog
                         ClassOrders.Add(vClassOrder);
 
                         string ClassName = elmClass.ElementText("ClassName");
+                        string TeacherName = elmClass.ElementText("TeacherName");
                         string StudentCount = elmClass.ElementText("StudentCount");
                         string ClassStudentCount = elmClass.ElementText("ClassStudentCount");
                         string NumberReduceSum = elmClass.ElementText("NumberReduceSum");
@@ -91,6 +92,7 @@ namespace KHJHLog
                         string GradeYear = elmClass.ElementText("GradeYear");
 
                         vClassOrder.ClassName = ClassName;
+                        vClassOrder.TeacherName = TeacherName;
                         vClassOrder.StudentCount = StudentCount;
                         vClassOrder.ClassStudentCount = ClassStudentCount;
                         vClassOrder.NumberReduceSum = NumberReduceSum;
@@ -168,6 +170,7 @@ namespace KHJHLog
                         grdClassOrder.Rows.Add(
                             School,
                             vClassOrder.ClassName,
+                            vClassOrder.TeacherName,
                             vClassOrder.StudentCount,
                             vClassOrder.ClassStudentCount,
                             vClassOrder.NumberReduceCount,

@@ -36,6 +36,7 @@
             this.btnExport = new DevComponents.DotNetBar.ButtonX();
             this.colSchool = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTeacherName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRealNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEstNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,11 +52,15 @@
             // 
             this.grdClassOrder.AllowUserToAddRows = false;
             this.grdClassOrder.AllowUserToDeleteRows = false;
+            this.grdClassOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grdClassOrder.BackgroundColor = System.Drawing.Color.White;
             this.grdClassOrder.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdClassOrder.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSchool,
             this.colClassName,
+            this.colTeacherName,
             this.colRealNumber,
             this.colEstNumber,
             this.Column1,
@@ -79,15 +84,16 @@
             this.grdClassOrder.RowHeadersVisible = false;
             this.grdClassOrder.RowTemplate.Height = 24;
             this.grdClassOrder.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdClassOrder.Size = new System.Drawing.Size(838, 503);
+            this.grdClassOrder.Size = new System.Drawing.Size(1014, 633);
             this.grdClassOrder.TabIndex = 0;
             // 
             // buttonX1
             // 
             this.buttonX1.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.buttonX1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonX1.BackColor = System.Drawing.Color.Transparent;
             this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX1.Location = new System.Drawing.Point(673, 18);
+            this.buttonX1.Location = new System.Drawing.Point(849, 18);
             this.buttonX1.Name = "buttonX1";
             this.buttonX1.Size = new System.Drawing.Size(75, 23);
             this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -126,9 +132,10 @@
             // btnExport
             // 
             this.btnExport.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.BackColor = System.Drawing.Color.Transparent;
             this.btnExport.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExport.Location = new System.Drawing.Point(771, 18);
+            this.btnExport.Location = new System.Drawing.Point(947, 18);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(75, 23);
             this.btnExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -138,11 +145,10 @@
             // 
             // colSchool
             // 
-            this.colSchool.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.colSchool.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.colSchool.HeaderText = "學校";
             this.colSchool.Name = "colSchool";
             this.colSchool.ReadOnly = true;
-            this.colSchool.Width = 59;
             // 
             // colClassName
             // 
@@ -150,17 +156,25 @@
             this.colClassName.Name = "colClassName";
             this.colClassName.ReadOnly = true;
             // 
+            // colTeacherName
+            // 
+            this.colTeacherName.HeaderText = "班導師";
+            this.colTeacherName.Name = "colTeacherName";
+            this.colTeacherName.ReadOnly = true;
+            // 
             // colRealNumber
             // 
             this.colRealNumber.HeaderText = "實際人數";
             this.colRealNumber.Name = "colRealNumber";
             this.colRealNumber.ReadOnly = true;
+            this.colRealNumber.Width = 90;
             // 
             // colEstNumber
             // 
             this.colEstNumber.HeaderText = "編班人數";
             this.colEstNumber.Name = "colEstNumber";
             this.colEstNumber.ReadOnly = true;
+            this.colEstNumber.Width = 90;
             // 
             // Column1
             // 
@@ -173,43 +187,47 @@
             this.colOrder.HeaderText = "編班順位";
             this.colOrder.Name = "colOrder";
             this.colOrder.ReadOnly = true;
+            this.colOrder.Width = 90;
             // 
             // colLock
             // 
             this.colLock.HeaderText = "編班鎖定";
             this.colLock.Name = "colLock";
             this.colLock.ReadOnly = true;
+            this.colLock.Width = 90;
             // 
             // colLockComment
             // 
             this.colLockComment.HeaderText = "鎖定備註";
             this.colLockComment.Name = "colLockComment";
             this.colLockComment.ReadOnly = true;
+            this.colLockComment.Width = 90;
             // 
             // colGradeYear
             // 
             this.colGradeYear.HeaderText = "年級";
             this.colGradeYear.Name = "colGradeYear";
             this.colGradeYear.ReadOnly = true;
+            this.colGradeYear.Width = 60;
             // 
             // colDisplayOrder
             // 
             this.colDisplayOrder.HeaderText = "班級順序";
             this.colDisplayOrder.Name = "colDisplayOrder";
             this.colDisplayOrder.ReadOnly = true;
+            this.colDisplayOrder.Width = 90;
             // 
             // frmClassOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(854, 562);
+            this.ClientSize = new System.Drawing.Size(1030, 691);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.labelX1);
             this.Controls.Add(this.cmbSchool);
             this.Controls.Add(this.buttonX1);
             this.Controls.Add(this.grdClassOrder);
             this.DoubleBuffered = true;
-            this.MaximumSize = new System.Drawing.Size(870, 600);
             this.MinimumSize = new System.Drawing.Size(870, 600);
             this.Name = "frmClassOrder";
             this.Text = "查詢編班";
@@ -230,6 +248,7 @@
         private DevComponents.DotNetBar.ButtonX btnExport;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSchool;
         private System.Windows.Forms.DataGridViewTextBoxColumn colClassName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTeacherName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRealNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEstNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
