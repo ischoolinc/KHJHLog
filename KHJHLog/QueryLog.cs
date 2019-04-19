@@ -298,14 +298,35 @@ namespace KHJHLog
 
             foreach (ListViewItem Item in lstAction.Items)
             {
-                if (Item.Checked)
+                // 審核結果 的邏輯另外處理
+                if (Item.Checked && Item.Name != "審核結果(通過)" && Item.Name != "審核結果(不通過)" && Item.Name != "審核結果(審核中)")
                 {
                     SelectedActions.Add(Item.Name);
                 }
             }
 
+            List<string> selectedVerification = new List<string>();
+
+            foreach (ListViewItem Item in lstAction.Items)
+            {
+                //選取 所有有選擇的 審核結果
+                if (Item.Checked && Item.Name == "審核結果(通過)")
+                {
+                    selectedVerification.Add("通過");
+                }
+                if (Item.Checked && Item.Name == "審核結果(不通過)")
+                {
+                    selectedVerification.Add("不通過");
+                }
+                if (Item.Checked && Item.Name == "審核結果(審核中)")
+                {                    
+                    selectedVerification.Add("待修正");
+                }
+            }
+
+
             //若沒有選取任何動作，則傳回空資料
-            if (SelectedActions.Count == 0)
+            if (SelectedActions.Count == 0 && selectedVerification.Count == 0)
                 return;
 
             string strStartDate = dateStart.Value.ToShortDateString();
@@ -315,16 +336,44 @@ namespace KHJHLog
 
             strSQLBuilder.Append("select uid,date_time,dsns,action,content,is_verify,comment from $school_log where date_time>='" + strStartDate + " 00:00:00' and date_time<='" + strEndDate + " 23:59:59' ");
 
-            if (SelectedActions.Count > 0)
+            // 2019/04/19 穎驊新增 [02-08][04]自動編班(局端)審核功能介面調整 項目， 讓使用者可以一次濾出 所有 通過、不通過、審核中的 項目
+
+            if (selectedVerification.Count > 0)
             {
-                string strCondition = string.Join(",", SelectedActions.Select(x => "'" + x.Trim() + "'").ToArray());
-                strSQLBuilder.Append(" and trim(action) in (" + strCondition + ")");
+                string strVerificationCondition = string.Join(",", selectedVerification.Select(x => "'" + x.Trim() + "'").ToArray());
+
+                // 待修正 有兩種狀態， 一種是狀態是"待修正" 一種是空的
+                if (!strVerificationCondition.Contains("待修正"))
+                {
+                    strSQLBuilder.Append(" and trim(is_verify) in (" + strVerificationCondition + ")");
+                }
+                else
+                {
+                    strSQLBuilder.Append(" and (trim(is_verify) in (" + strVerificationCondition + ") OR trim(is_verify) IS NULL)");
+                }
+                
+                if (SelectedActions.Count > 0)
+                {
+                    string strActionCondition = string.Join(",", SelectedActions.Select(x => "'" + x.Trim() + "'").ToArray());
+                    strSQLBuilder.Append(" and trim(action) in (" + strActionCondition + ")");
+                }
+            }
+            else
+            {
+                if (SelectedActions.Count > 0)
+                {
+                    string strActionCondition = string.Join(",", SelectedActions.Select(x => "'" + x.Trim() + "'").ToArray());
+                    strSQLBuilder.Append(" and trim(action) in (" + strActionCondition + ")");
+                }
             }
 
+                        
             strSQLBuilder.Append(" order by date_time desc");
 
             string strSQL = strSQLBuilder.ToString();
 
+
+            
             DataTable tblSchoolLog = queryhelper.Select(strSQL);
             List<School> Schools = accesshelper.Select<School>();
 
