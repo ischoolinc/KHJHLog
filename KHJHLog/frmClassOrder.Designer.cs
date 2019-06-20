@@ -38,6 +38,8 @@
             this.colClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colTeacherName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRealNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSuspensionStudentCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDropOutStudentCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colEstNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,6 +64,8 @@
             this.colClassName,
             this.colTeacherName,
             this.colRealNumber,
+            this.colSuspensionStudentCount,
+            this.colDropOutStudentCount,
             this.colEstNumber,
             this.Column1,
             this.colOrder,
@@ -71,7 +75,7 @@
             this.colDisplayOrder});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
@@ -84,7 +88,7 @@
             this.grdClassOrder.RowHeadersVisible = false;
             this.grdClassOrder.RowTemplate.Height = 24;
             this.grdClassOrder.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdClassOrder.Size = new System.Drawing.Size(1014, 633);
+            this.grdClassOrder.Size = new System.Drawing.Size(1234, 633);
             this.grdClassOrder.TabIndex = 0;
             // 
             // buttonX1
@@ -93,7 +97,7 @@
             this.buttonX1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonX1.BackColor = System.Drawing.Color.Transparent;
             this.buttonX1.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.buttonX1.Location = new System.Drawing.Point(849, 18);
+            this.buttonX1.Location = new System.Drawing.Point(1069, 18);
             this.buttonX1.Name = "buttonX1";
             this.buttonX1.Size = new System.Drawing.Size(75, 23);
             this.buttonX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -125,7 +129,7 @@
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX1.Location = new System.Drawing.Point(12, 16);
             this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(74, 21);
+            this.labelX1.Size = new System.Drawing.Size(67, 20);
             this.labelX1.TabIndex = 3;
             this.labelX1.Text = "選擇學校：";
             // 
@@ -135,7 +139,7 @@
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.BackColor = System.Drawing.Color.Transparent;
             this.btnExport.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExport.Location = new System.Drawing.Point(947, 18);
+            this.btnExport.Location = new System.Drawing.Point(1167, 18);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(75, 23);
             this.btnExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -168,6 +172,20 @@
             this.colRealNumber.Name = "colRealNumber";
             this.colRealNumber.ReadOnly = true;
             this.colRealNumber.Width = 90;
+            // 
+            // colSuspensionStudentCount
+            // 
+            this.colSuspensionStudentCount.HeaderText = "休學人數";
+            this.colSuspensionStudentCount.Name = "colSuspensionStudentCount";
+            this.colSuspensionStudentCount.ReadOnly = true;
+            this.colSuspensionStudentCount.Width = 90;
+            // 
+            // colDropOutStudentCount
+            // 
+            this.colDropOutStudentCount.HeaderText = "輟學人數";
+            this.colDropOutStudentCount.Name = "colDropOutStudentCount";
+            this.colDropOutStudentCount.ReadOnly = true;
+            this.colDropOutStudentCount.Width = 90;
             // 
             // colEstNumber
             // 
@@ -221,7 +239,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1030, 691);
+            this.ClientSize = new System.Drawing.Size(1250, 691);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.labelX1);
             this.Controls.Add(this.cmbSchool);
@@ -250,6 +268,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colClassName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTeacherName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colRealNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSuspensionStudentCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDropOutStudentCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn colEstNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOrder;

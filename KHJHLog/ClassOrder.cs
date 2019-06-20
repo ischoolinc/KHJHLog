@@ -67,5 +67,15 @@ namespace KHJHLog
         /// 班級顯示順序
         /// </summary>
         public int DisplayOrder { get; set; }
+
+        /// <summary>
+        /// 休學生人數
+        /// </summary>
+        public string SuspensionStudentCount { get; set; }
+
+        /// <summary>
+        /// 輟學生人數
+        /// </summary>
+        public string DropOutStudentCount { get; set; }
     }
 }

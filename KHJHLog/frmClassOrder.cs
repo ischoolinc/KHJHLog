@@ -60,7 +60,7 @@ namespace KHJHLog
                     //  <ClassStudentCount>25</ClassStudentCount>
                     //</Class>
 
-                    //班級名稱、實際人數、編班人數、編班順位、編班鎖定、鎖定備註
+                    //班級名稱、實際人數、編班人數、編班順位、編班鎖定、鎖定備註、休學生人數、輟學生人數
 
                     XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
 
@@ -82,7 +82,7 @@ namespace KHJHLog
 
                         if (!string.IsNullOrWhiteSpace(NumberReduceSum))
                             ClassStudentCount = ClassStudentCount + "(" + StudentCount + "+" + NumberReduceSum + ")";
-                        
+
                         string NumberReduceCount = elmClass.ElementText("NumberReduceCount");
                         string Lock = elmClass.ElementText("Lock");
                         string Comment = elmClass.ElementText("Comment");
@@ -91,9 +91,14 @@ namespace KHJHLog
                         string DisplayOrder = elmClass.ElementText("DisplayOrder");
                         string GradeYear = elmClass.ElementText("GradeYear");
 
+                        string SuspensionStudentCount = elmClass.ElementText("SuspensionStudentCount");
+                        string DropOutStudentCount = elmClass.ElementText("DropOutStudentCount");
+
                         vClassOrder.ClassName = ClassName;
                         vClassOrder.TeacherName = TeacherName;
                         vClassOrder.StudentCount = StudentCount;
+                        vClassOrder.SuspensionStudentCount = "" + SuspensionStudentCount;
+                        vClassOrder.DropOutStudentCount = "" + DropOutStudentCount;
                         vClassOrder.ClassStudentCount = ClassStudentCount;
                         vClassOrder.NumberReduceSum = NumberReduceSum;
                         vClassOrder.NumberReduceCount = NumberReduceCount;
@@ -107,10 +112,10 @@ namespace KHJHLog
 
                         vClassOrder.Lock = Lock;
                         vClassOrder.Comment = Comment;
-                        vClassOrder.ClassOrderNumber = 0; 
+                        vClassOrder.ClassOrderNumber = 0;
                         //if(Lock=="鎖定")
                         //    vClassOrder.ClassOrderNumber = 999;
- 
+
                         vClassOrder.ClassStudentCountValue = StudentCount.GetInt() + NumberReduceSum.GetInt();
                         if (string.IsNullOrEmpty(DisplayOrder))
                             vClassOrder.DisplayOrder = 999;
@@ -128,7 +133,7 @@ namespace KHJHLog
                     // 判斷排序方式
                     int NoCount = 0;
 
-                    foreach(ClassOrder co in ClassOrders)
+                    foreach (ClassOrder co in ClassOrders)
                     {
                         int xx;
                         if (int.TryParse(co.ClassName, out xx))
@@ -152,15 +157,15 @@ namespace KHJHLog
                         string vGradeYear;
                         //string vClassOrderNumber;
 
-                        if(vClassOrder.DisplayOrder==999)
-                            vDisplayOrder="";
+                        if (vClassOrder.DisplayOrder == 999)
+                            vDisplayOrder = "";
                         else
-                            vDisplayOrder=vClassOrder.DisplayOrder.ToString();
+                            vDisplayOrder = vClassOrder.DisplayOrder.ToString();
 
-                        if(vClassOrder.GradeYear==999)
-                            vGradeYear="";
+                        if (vClassOrder.GradeYear == 999)
+                            vGradeYear = "";
                         else
-                            vGradeYear=vClassOrder.GradeYear.ToString();
+                            vGradeYear = vClassOrder.GradeYear.ToString();
 
                         //if (vClassOrder.ClassOrderNumber == 999)
                         //    vClassOrderNumber = "";
@@ -172,6 +177,8 @@ namespace KHJHLog
                             vClassOrder.ClassName,
                             vClassOrder.TeacherName,
                             vClassOrder.StudentCount,
+                            vClassOrder.SuspensionStudentCount,
+                            vClassOrder.DropOutStudentCount,
                             vClassOrder.ClassStudentCount,
                             vClassOrder.NumberReduceCount,
                             vClassOrder.ClassOrderNumber,
@@ -212,7 +219,7 @@ namespace KHJHLog
             //Schools.Add(vSchool);
 
             cmbSchool.DataSource = Schools;
-            cmbSchool.DisplayMember = "Title"; 
+            cmbSchool.DisplayMember = "Title";
             cmbSchool.ValueMember = "DSNS";
         }
     }
