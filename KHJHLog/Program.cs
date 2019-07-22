@@ -21,7 +21,7 @@ namespace KHJHLog
         {
 
 
-              #region 處理垃圾資料用
+            #region 處理垃圾資料用
 
 
             FISCA.UDT.AccessHelper accessHelper = new FISCA.UDT.AccessHelper();
@@ -41,9 +41,9 @@ namespace KHJHLog
                 {
                     bool chkDel = false;
                     XElement elmRoot = XElement.Parse(sb.ToString());
-                    foreach(XElement elm in elmRoot.Elements("Student"))
+                    foreach (XElement elm in elmRoot.Elements("Student"))
                     {
-                        if (elm.Element("ClassName") != null && elm.Element("NewClassName") != null && elm.Element("StudentStatus") != null && elm.Element("NewStudentStatus") != null)                        
+                        if (elm.Element("ClassName") != null && elm.Element("NewClassName") != null && elm.Element("StudentStatus") != null && elm.Element("NewStudentStatus") != null)
                         {
                             if (elm.Element("ClassName").Value == elm.Element("NewClassName").Value && elm.Element("StudentStatus").Value == elm.Element("NewStudentStatus").Value)
                             {
@@ -55,9 +55,10 @@ namespace KHJHLog
                     if (chkDel)
                         WaitDel.Add(log);
                 }
-                catch (Exception ex) { 
+                catch (Exception ex)
+                {
                 }
-                
+
             }
 
             #endregion
@@ -111,6 +112,31 @@ namespace KHJHLog
             MainPanel.RibbonBarItems["自動編班"]["查詢學生調整班級"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
 
+            MainPanel.SelectedSourceChanged += delegate
+            {
+                if (MainPanel.SelectedSource.Count > 0)
+                {
+                    MainPanel.RibbonBarItems["查詢"]["查詢社團狀態"].Enable = true;
+                    MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Enable = true;
+                }
+                else
+                {
+                    MainPanel.RibbonBarItems["查詢"]["查詢社團狀態"].Enable = false;
+                    MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Enable = false;
+                }
+            };
+
+            MainPanel.RibbonBarItems["查詢"]["查詢社團狀態"].Enable = false;
+            MainPanel.RibbonBarItems["查詢"]["查詢社團狀態"].Click += (sender, e) => new frmClubStatus().ShowDialog();
+            MainPanel.RibbonBarItems["查詢"]["查詢社團狀態"].Image = Properties.Resources.recreation_zoom_64;
+            MainPanel.RibbonBarItems["查詢"]["查詢社團狀態"].Size = RibbonBarButton.MenuButtonSize.Medium;
+
+            MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Enable = false;
+            MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Click += (sender, e) => new frmClassDetail().ShowDialog();
+            MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Image = Properties.Resources.mask_zoom_64;
+            MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Size = RibbonBarButton.MenuButtonSize.Medium;
+
+    
             FISCA.Permission.Catalog AdminCatalog = FISCA.Permission.RoleAclSource.Instance["自動編班"]["功能按鈕"];
             AdminCatalog.Add(new RibbonFeature(Permissions.查詢紀錄, "查詢紀錄"));
             AdminCatalog.Add(new RibbonFeature(Permissions.動作設定, "動作設定"));
@@ -119,13 +145,13 @@ namespace KHJHLog
         private static void InitMainPanel()
         {
 
-           bool addPanel=true;
+            bool addPanel = true;
             foreach (NLDPanel Panel in MotherForm.Panels)
             {
                 if (Panel.Group.Equals("學校"))
                 {
                     MainPanel = Panel;
-                    addPanel=false;
+                    addPanel = false;
                 }
             }
 

@@ -113,6 +113,23 @@
   <ItemGroup>
     <Compile Include="ClassOrder.cs" />
     <Compile Include="ClassOrderExtension.cs" />
+    <Compile Include="Club\frmClassDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Club\frmClassDetail.Designer.cs">
+      <DependentUpon>frmClassDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Club\OccurClass.cs" />
+    <Compile Include="Club\OccurClub.cs" />
+    <Compile Include="Club\frmClubDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Club\frmClubDetail.Designer.cs">
+      <DependentUpon>frmClubDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Club\SchoolClassRecord.cs" />
+    <Compile Include="Club\SchoolClubRecord.cs" />
+    <Compile Include="Club\tool.cs" />
     <Compile Include="DataGridViewExport.cs" />
     <Compile Include="frmActionList.cs">
       <SubType>Form</SubType>
@@ -131,6 +148,12 @@
     </Compile>
     <Compile Include="frmClassOrder.Designer.cs">
       <DependentUpon>frmClassOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Club\frmClubStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Club\frmClubStatus.Designer.cs">
+      <DependentUpon>frmClubStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="frmDetailLog2.cs">
       <SubType>Form</SubType>
@@ -201,6 +224,12 @@
     <Compile Include="XExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Club\frmClassDetail.resx">
+      <DependentUpon>frmClassDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Club\frmClubDetail.resx">
+      <DependentUpon>frmClubDetail.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmActionList.resx">
       <DependentUpon>frmActionList.cs</DependentUpon>
     </EmbeddedResource>
@@ -209,6 +238,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmClassOrder.resx">
       <DependentUpon>frmClassOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Club\frmClubStatus.resx">
+      <DependentUpon>frmClubStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDetailLog2.resx">
       <DependentUpon>frmDetailLog2.cs</DependentUpon>
@@ -296,6 +328,8 @@
     <Content Include="Library\FISCA.UDT.pdb" />
     <Content Include="Library\FISCA.UDT.xml" />
     <Content Include="Library\FISCA.xml" />
+    <None Include="Resources\mask_zoom_64.png" />
+    <None Include="Resources\recreation_zoom_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
