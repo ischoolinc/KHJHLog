@@ -197,6 +197,20 @@
     <Compile Include="frmTestPassport.Designer.cs">
       <DependentUpon>frmTestPassport.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmUnlock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUnlock.Designer.cs">
+      <DependentUpon>frmUnlock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVerifyLock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVerifyLock.Designer.cs">
+      <DependentUpon>frmVerifyLock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\DataHelper.cs" />
+    <Compile Include="Model\ApplyStatus.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -262,6 +276,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmTestPassport.resx">
       <DependentUpon>frmTestPassport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUnlock.resx">
+      <DependentUpon>frmUnlock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVerifyLock.resx">
+      <DependentUpon>frmVerifyLock.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,12 +1,21 @@
 ﻿
+using KHJHLog.Model;
+
 namespace KHJHLog
 {
     public class ClassOrder
     {
+
+        public School School { get; set; }
         /// <summary>
         /// 班級名稱
         /// </summary>
         public string ClassName { get; set; }
+
+        /// <summary>
+        /// 學校系統編號
+        /// </summary>
+        public string ClassID { get; set; }
 
         /// <summary>
         /// 班導師
@@ -77,5 +86,36 @@ namespace KHJHLog
         /// 輟學生人數
         /// </summary>
         public string DropOutStudentCount { get; set; }
+
+        /// <summary>
+        /// 局端解鎖備註
+        /// </summary>
+        public string DistrictComment { get; set; }
+
+        /// <summary>
+        /// 局端解鎖日期
+        /// </summary>
+        public string DistrictUulockDate { get; set; }
+
+        /// <summary>
+        /// 不自動解鎖
+        /// </summary>
+        public  string  UnautoUnlock { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string  LockAppling { get; set; }
+
+        /// <summary>
+        /// 最後修改是局端
+        /// </summary>
+        public string LastUpdateByDistrict { get; set; }
+
+        /// <summary>
+        /// 申請狀態
+        /// </summary>
+        public ApplyStatus LockApplyStatus { get; set; }
     }
 }
