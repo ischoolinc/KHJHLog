@@ -116,6 +116,7 @@
             this.cmbSchool.DisplayMember = "Text";
             this.cmbSchool.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmbSchool.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSchool.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbSchool.FormattingEnabled = true;
             this.cmbSchool.ItemHeight = 19;
             this.cmbSchool.Location = new System.Drawing.Point(92, 16);
@@ -244,7 +245,7 @@
             // 
             // DistrictComment
             // 
-            this.DistrictComment.HeaderText = "局端備註(校端可見)";
+            this.DistrictComment.HeaderText = "局端備註";
             this.DistrictComment.Name = "DistrictComment";
             this.DistrictComment.ReadOnly = true;
             // 

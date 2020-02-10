@@ -116,24 +116,24 @@ namespace KHJHLog
 
                     try
                     {
-                        string lockApplyStatusString = elmClass.ElementText("LockApplyStatus");
-                        ApplyStatus LockApplyStatus = String.IsNullOrWhiteSpace(lockApplyStatusString) ? ApplyStatus.未提出鎖班申請 : (ApplyStatus)Enum.Parse(typeof(ApplyStatus), lockApplyStatusString);
-              
+                        string LockApplyStatus = elmClass.ElementText("LockApplyStatus");
+                        //string  LockApplyStatus = String.IsNullOrWhiteSpace(lockApplyStatusString) ? "" : ;
 
-                    vClassOrder.School = this.School;
-                    vClassOrder.ClassID = ClassID;
-                    vClassOrder.ClassName = ClassName;
-                    vClassOrder.TeacherName = TeacherName;
-                    vClassOrder.StudentCount = StudentCount;
-                    vClassOrder.SuspensionStudentCount = "" + SuspensionStudentCount;
-                    vClassOrder.DropOutStudentCount = "" + DropOutStudentCount;
-                    vClassOrder.ClassStudentCount = ClassStudentCount;
-                    vClassOrder.NumberReduceSum = NumberReduceSum;
-                    vClassOrder.NumberReduceCount = NumberReduceCount;
-                    vClassOrder.UnautoUnlock = UnautoUnlock == "t" ? "(不自動解鎖)" : "";
-                    vClassOrder.LockAppling = LockAppling == "t" ? "(校端鎖班申請中)" : "";
 
-                    vClassOrder.LockApplyStatus = LockApplyStatus;
+                        vClassOrder.School = this.School;
+                        vClassOrder.ClassID = ClassID;
+                        vClassOrder.ClassName = ClassName;
+                        vClassOrder.TeacherName = TeacherName;
+                        vClassOrder.StudentCount = StudentCount;
+                        vClassOrder.SuspensionStudentCount = "" + SuspensionStudentCount;
+                        vClassOrder.DropOutStudentCount = "" + DropOutStudentCount;
+                        vClassOrder.ClassStudentCount = ClassStudentCount;
+                        vClassOrder.NumberReduceSum = NumberReduceSum;
+                        vClassOrder.NumberReduceCount = NumberReduceCount;
+                        vClassOrder.UnautoUnlock = UnautoUnlock == "t" ? "(不自動解鎖)" : "";
+                    //    vClassOrder.LockAppling = LockAppling == "t" ? "(校端鎖班申請中)" : "";
+
+                        vClassOrder.LockApplingStatus = LockApplyStatus;
 
 
                     }
@@ -220,48 +220,47 @@ namespace KHJHLog
                     string LockStatus = "";
                     if (vClassOrder.Lock == "鎖定")
                     {
-                        LockStatus = vClassOrder.Lock + $"{vClassOrder.UnautoUnlock}";
+                        LockStatus = $" {vClassOrder.Lock} {vClassOrder.UnautoUnlock} ";
 
-                    
-                        if (vClassOrder.Lock == "鎖定" && vClassOrder.LockApplyStatus == ApplyStatus.局端同意鎖班)
-                        {
-                            LockStatus = $"{vClassOrder.LockApplyStatus}{vClassOrder.UnautoUnlock}";
-                        }
+                        //if (vClassOrder.Lock == "鎖定" )
+                        //{
+                        //    LockStatus = $"{vClassOrder.LockApplyStatus}{vClassOrder.Una";
+                        //}
                     }
                     else //不鎖定
                     {
-                        if (vClassOrder.LockApplyStatus == ApplyStatus.鎖班申請中_鎖班數超過二分之一)
+                        if (vClassOrder.LockApplingStatus == ApplyStatus.鎖班申請中_鎖班數超過二分之一.ToString())
                         {
-                            LockStatus = $"{vClassOrder.LockApplyStatus}";
+                            LockStatus = $"{vClassOrder.LockApplingStatus}";
                         }
-                        if (vClassOrder.LockApplyStatus == ApplyStatus.鎖班申請退回_鎖班數超過二分之一)
+                        if (vClassOrder.LockApplingStatus == ApplyStatus.鎖班申請退回_鎖班數超過二分之一.ToString())
                         {
-                            LockStatus = $"{vClassOrder.LockApplyStatus}";
+                            LockStatus = $"{vClassOrder.LockApplingStatus}";
                         }
                     }
 
 
-                   
-                        int rowIndex = grdClassOrder.Rows.Add(
-                             vClassOrder.School.Title,
-                             vClassOrder.ClassName,
-                             vClassOrder.TeacherName,
-                             vClassOrder.StudentCount,
-                             vClassOrder.SuspensionStudentCount,
-                             vClassOrder.DropOutStudentCount,
-                             vClassOrder.ClassStudentCount,
-                             vClassOrder.NumberReduceCount,
-                             vClassOrder.ClassOrderNumber,
-                             LockStatus,
-                             vClassOrder.Comment,
-                             vClassOrder.DistrictComment ,
-                             vClassOrder.DistrictUulockDate,
-                             vGradeYear,
-                             vDisplayOrder
-                             );
-                        grdClassOrder.Rows[rowIndex].Tag = vClassOrder;
-                    }
+
+                    int rowIndex = grdClassOrder.Rows.Add(
+                         vClassOrder.School.Title,
+                         vClassOrder.ClassName,
+                         vClassOrder.TeacherName,
+                         vClassOrder.StudentCount,
+                         vClassOrder.SuspensionStudentCount,
+                         vClassOrder.DropOutStudentCount,
+                         vClassOrder.ClassStudentCount,
+                         vClassOrder.NumberReduceCount,
+                         vClassOrder.ClassOrderNumber,
+                         LockStatus,
+                         vClassOrder.Comment,
+                         vClassOrder.DistrictComment,
+                         vClassOrder.DistrictUulockDate,
+                         vGradeYear,
+                         vDisplayOrder
+                         );
+                    grdClassOrder.Rows[rowIndex].Tag = vClassOrder;
                 }
+            }
             catch (Exception ve)
             {
                 MessageBox.Show(ve.Message);
@@ -303,11 +302,17 @@ namespace KHJHLog
 
         private void grdClassOrder_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-
             int row = e.RowIndex;
             ClassOrder classInfo = grdClassOrder.Rows[row].Tag as ClassOrder;
-            (new frmVerifyLock(classInfo)).ShowDialog();
-            LoadClassInfoBySchool();
+            if (classInfo.LockApplingStatus == ApplyStatus.鎖班申請中_鎖班數超過二分之一.ToString()) //如果學校鎖班狀態是 申請中
+            {
+                (new frmVerifyLock(classInfo)).ShowDialog();
+                LoadClassInfoBySchool();
+            }
+            else // 非申請中
+            {
+                return;
+            }
         }
     }
 }

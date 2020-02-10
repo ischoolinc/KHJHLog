@@ -25,6 +25,7 @@ namespace KHJHLog
         private int currentSchoolIndex;
         private List<string> SuccesLock;
         private string DistictComment;
+        private List<string> SchoolError = new List<string>();
 
         private List<string> selectedSchools;
 
@@ -41,7 +42,7 @@ namespace KHJHLog
             _BGWorker.DoWork += _BGWorker_DoWork;
             _BGWorker.RunWorkerCompleted += _BGWorker_RunWorkerCompleted;
             _BGWorker.ProgressChanged += _BGWorker_ProgressChanged;
-           _BGWorker.WorkerReportsProgress = true;
+            _BGWorker.WorkerReportsProgress = true;
 
             this._Helper = new AccessHelper();
             this.SuccesLock = new List<string>();
@@ -49,7 +50,7 @@ namespace KHJHLog
             loadSchools();
 
             //預設學校解鎖 說明 for 學校方便使用
-           // txtDistrictComment.Text = "局端解鎖(未設定不自動解鎖班級)";
+            // txtDistrictComment.Text = "局端解鎖(未設定不自動解鎖班級)";
 
         }
 
@@ -60,8 +61,22 @@ namespace KHJHLog
 
         private void _BGWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            String SuccessLockSchools = String.Join("\n",this.SuccesLock);
-            MsgBox.Show($"已成功完成解鎖{SuccessLockSchools}");
+            if (!e.Cancelled)
+            {
+                if (e.Error == null)
+                {
+                    if (this.SchoolError.Count < this.SelectedSchools.Count)  //如果不是所有學校都發生錯誤
+                    {
+                        String SuccessLockSchools = String.Join("\n", this.SuccesLock);
+                        MsgBox.Show($"已成功完成解鎖{SuccessLockSchools}");
+                    }
+                    else
+                    {
+                        String ErrrorLockSchools = String.Join("\n", this.SchoolError);
+                        MsgBox.Show($"錯誤清單:{ErrrorLockSchools}");
+                    }
+                }
+            }
         }
 
         //DoWork 執行
@@ -73,9 +88,22 @@ namespace KHJHLog
             {
                 this.currentSchoolIndex++;
 
-                 _BGWorker.ReportProgress(this.getProgressPercent(), $"({this.currentSchoolIndex} / {this.SelectedSchools.Count}) 處理 {school.Title} 中");
-                UpdateSchoolDate();
-                  _BGWorker.ReportProgress(this.getProgressPercent(), $"完成 {school.Title}");
+                _BGWorker.ReportProgress(this.getProgressPercent(), $"({this.currentSchoolIndex} / {this.SelectedSchools.Count}) 處理 {school.Title} 中");
+                try
+                {
+
+                    UpdateSchoolDate();
+                    SuccesLock.Add(school.Title);
+                }
+                catch (Exception ex)
+                {
+
+                    MsgBox.Show($"解鎖{school.Title}時，發生錯誤 \n，錯誤訊息:{ex.Message} \n  堆疊:{ex.StackTrace}");
+                    SchoolError.Add(school.Title);
+
+                }
+
+                _BGWorker.ReportProgress(this.getProgressPercent(), $"完成 {school.Title}");
             }
             ApplicationLog.Log("局端手動解鎖", "執行", $"解鎖學校：\n {  string.Join("\n", this.SuccesLock)}");
 
@@ -88,57 +116,83 @@ namespace KHJHLog
             foreach (School schoolInfo in SelectedSchools)
             {
 
-                try
-                {
-                    Connection con = new Connection();
+                Connection con = new Connection();
 
-                    //取得局端登入後Greening發的Passport，並登入指定的Contract
-                    con.Connect(FISCA.Authentication.DSAServices.DefaultDataSource.AccessPoint, "ischool.kh.central_office.user", FISCA.Authentication.DSAServices.PassportToken);
+                //取得局端登入後Greening發的Passport，並登入指定的Contract
+                con.Connect(FISCA.Authentication.DSAServices.DefaultDataSource.AccessPoint, "ischool.kh.central_office.user", FISCA.Authentication.DSAServices.PassportToken);
 
-                    //取得該Contract所發的Passport
-                    Envelope Response = con.SendRequest("DS.Base.GetPassportToken", new Envelope());
-                    PassportToken Passport = new PassportToken(Response.Body);
+                //取得該Contract所發的Passport
+                Envelope Response = con.SendRequest("DS.Base.GetPassportToken", new Envelope());
+                PassportToken Passport = new PassportToken(Response.Body);
 
-                    //TODO：拿此Passport登入各校
+                //TODO：拿此Passport登入各校
 
-                    Connection conSchool = new Connection();
-                    conSchool.Connect(schoolInfo.DSNS, "ischool.kh.central_office", Passport);
+                Connection conSchool = new Connection();
+                conSchool.Connect(schoolInfo.DSNS, "ischool.kh.central_office", Passport);
 
-                    //依據功能不同呼叫不同service，
-                    //var xml = new XmlHelper("<Request/>");
-                    //for(var i = 0;i<10;i++)
-                    //{
-                    //    var stud = new XmlHelper(xml.AddElement("Request", "Student"));
+                //依據功能不同呼叫不同service，
+                //var xml = new XmlHelper("<Request/>");
+                //for(var i = 0;i<10;i++)
+                //{
+                //    var stud = new XmlHelper(xml.AddElement("Request", "Student"));
 
-                    //    stud.AddElement("Name").InnerText = i.ToString();
-                    //    stud.AddElement("ID", i.ToString());
+                //    stud.AddElement("Name").InnerText = i.ToString();
+                //    stud.AddElement("ID", i.ToString());
 
-                    //}
+                //}
 
 
-                    var xml = new XmlHelper("<Request/>");
-                    xml.AddElement("districtComment").InnerText = this.DistictComment;
 
+                // log用
+                string ClinetInfo = @"
+<ClientInfo>
+  <HostName></HostName>
+  <NetworkAdapterList>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress/>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+  </NetworkAdapterList>
+</ClientInfo>
+";
+
+                var xml = new XmlHelper("<Request/>");
+                xml.AddElement("districtComment").InnerText = this.DistictComment;
+                xml.AddElement("ClientInfo").InnerText = ClinetInfo;
+
+
+               
                     Response = conSchool.SendRequest("_.UpdateClassNulock", new Envelope(xml)); //update unlock
-
-                    DataTable dt = DataHelper.convertXmlToDataTable(Response.Body.XmlString);
-
-
-                    SuccesLock.Add(schoolInfo.Title);
-                }
-                catch (Exception ex)
-                {
-                    MsgBox.Show($"解鎖{schoolInfo.Title}時，發生錯誤 \n，錯誤訊息:{ex.Message} \n  堆疊:{ex.StackTrace}");
-                }
+               
+             
             }
-
         }
 
         private int getProgressPercent()
         {
-          
-                return this.currentSchoolIndex * 100 / this.SelectedSchools.Count;
-           
+
+            return this.currentSchoolIndex * 100 / this.SelectedSchools.Count;
+
         }
 
 

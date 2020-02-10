@@ -201,7 +201,7 @@
             this.Controls.Add(this.labSchool);
             this.DoubleBuffered = true;
             this.Name = "frmVerifyLock";
-            this.Text = "審核超過1/2解鎖";
+            this.Text = "申請鎖班審核";
             this.Load += new System.EventHandler(this.frmVerifyLock_Load);
             this.ResumeLayout(false);
 

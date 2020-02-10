@@ -103,10 +103,7 @@ namespace KHJHLog
         public  string  UnautoUnlock { get; set; }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string  LockAppling { get; set; }
+      
 
         /// <summary>
         /// 最後修改是局端
@@ -116,6 +113,6 @@ namespace KHJHLog
         /// <summary>
         /// 申請狀態
         /// </summary>
-        public ApplyStatus LockApplyStatus { get; set; }
+        public string LockApplingStatus { get; set; }
     }
 }

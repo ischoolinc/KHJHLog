@@ -1,4 +1,5 @@
 ﻿using FISCA.DSAClient;
+using FISCA.LogAgent;
 using FISCA.Presentation.Controls;
 using KHJHLog.Helper;
 using KHJHLog.Model;
@@ -24,12 +25,12 @@ namespace KHJHLog
 
         private void frmVerifyLock_Load(object sender, EventArgs e)
         {
-            
+
             this.txtSchool.Text = ClassInfo.School.Title;
             this.txtClass.Text = this.ClassInfo.ClassName;
             cboAction.Items.AddRange(new string[] { "核准鎖班", "退回鎖班申請" });
             cboAction.SelectedIndex = 0;
-         
+
         }
 
         private void textBoxX2_TextChanged(object sender, EventArgs e)
@@ -44,6 +45,7 @@ namespace KHJHLog
 
             string Action = this.cboAction.Text;
             this.Update(Action);
+            this.Close();
 
         }
 
@@ -78,29 +80,75 @@ namespace KHJHLog
 
                 //}
 
+                string ClinetInfo = @"
+<ClientInfo>
+  <HostName></HostName>
+  <NetworkAdapterList>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress/>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+    <NetworkAdapter>
+      <IPAddress></IPAddress>
+      <PhysicalAddress></PhysicalAddress>
+    </NetworkAdapter>
+  </NetworkAdapterList>
+</ClientInfo>
+";
+
+
                 if (action == "核准鎖班")
                 {
 
                     var xml = new XmlHelper("<Request/>");
-                    xml.AddElement("ApplingStatus").InnerText = ApplyStatus.局端同意鎖班.ToString(); ;
+                    xml.AddElement("ApplingStatus").InnerText = "";
                     xml.AddElement("ClassID").InnerText = this.ClassInfo.ClassID;
                     xml.AddElement("DistrictComment").InnerText = this.txtDistrictComment.Text;
-
+                    xml.AddElement("IsLock").InnerText = "true";
+                    xml.AddElement("Message").InnerText = "局端核准鎖班";
+                    xml.AddElement("ClientInfo").InnerText = ClinetInfo;
                     Response = conSchool.SendRequest("_.ApproveAndLock", new Envelope(xml));
 
-                } else if (action== "退回鎖班申請")
+                }
+                else if (action == "退回鎖班申請")
                 {
 
                     var xml = new XmlHelper("<Request/>");
-                    xml.AddElement("ApplingStatus").InnerText = this.cboAction.Text;
+
+                    xml.AddElement("ApplingStatus").InnerText = ApplyStatus.鎖班申請退回_鎖班數超過二分之一.ToString();
                     xml.AddElement("ClassID").InnerText = this.ClassInfo.ClassID;
                     xml.AddElement("DistrictComment").InnerText = this.txtDistrictComment.Text;
+                    xml.AddElement("IsLock").InnerText = "false";
+                    xml.AddElement("Message").InnerText = "退回鎖班申請";
+                    xml.AddElement("ClientInfo").InnerText = ClinetInfo;
 
-                    Response = conSchool.SendRequest("_.ReturnApplication", new Envelope(xml));
+                    Response = conSchool.SendRequest("_.ApproveAndLock", new Envelope(xml));
                 }
 
                 DataTable dt = DataHelper.convertXmlToDataTable(Response.Body.XmlString);
 
+                StringBuilder  sb  = new StringBuilder();
+                sb.AppendLine($"日期時間「{DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss")}」學校「{this.ClassInfo.School.Title}」，班級「{this.ClassInfo.ClassName}」 動作「{action}」備註「{ this.txtDistrictComment.Text}」");
+
+                ApplicationLog.Log("校端鎖班申請審核", action, "", sb.ToString());
+
+                MsgBox.Show("儲存成功!");
 
             }
             catch (Exception ex)

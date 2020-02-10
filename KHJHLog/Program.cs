@@ -91,7 +91,6 @@ namespace KHJHLog
             MainPanel.RibbonBarItems["自動編班"]["查詢紀錄"].Enable = Permissions.查詢紀錄權限;
 
             //Jean 新增 局端解鎖 20191231
-
             MainPanel.RibbonBarItems["自動編班"]["局端手動解鎖"].Click += (sender, e) => new frmUnlock().ShowDialog();
             MainPanel.RibbonBarItems["自動編班"]["局端手動解鎖"].Image = Properties.Resources.classmate_128;
              MainPanel.RibbonBarItems["自動編班"]["局端手動解鎖"].Size = RibbonBarButton.MenuButtonSize.Medium;
