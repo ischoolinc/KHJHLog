@@ -68,7 +68,7 @@ namespace KHJHLog
                     if (this.SchoolError.Count < this.SelectedSchools.Count)  //如果不是所有學校都發生錯誤
                     {
                         String SuccessLockSchools = String.Join("\n", this.SuccesLock);
-                        MsgBox.Show($"已成功完成解鎖{SuccessLockSchools}");
+                        MsgBox.Show($"已成功完成解鎖: \n {SuccessLockSchools}");
                     }
                     else
                     {
@@ -83,7 +83,7 @@ namespace KHJHLog
         private void _BGWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             this.currentSchoolIndex = 0;
-
+            this.SchoolError.Clear();
             foreach (School school in this.SelectedSchools)
             {
                 this.currentSchoolIndex++;

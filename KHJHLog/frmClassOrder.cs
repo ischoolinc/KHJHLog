@@ -263,7 +263,7 @@ namespace KHJHLog
             }
             catch (Exception ve)
             {
-                MessageBox.Show(ve.Message);
+                MessageBox.Show(ve.Message ,ve.StackTrace);
             }
         }
 
