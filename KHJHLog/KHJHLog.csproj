@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KHJHLog</RootNamespace>
     <AssemblyName>KHJHLog</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Cells, Version=4.3.0.0, Culture=neutral, PublicKeyToken=9a40d5a4b59e5256, processorArchitecture=MSIL">
@@ -179,6 +181,12 @@
     <Compile Include="frmSchoolClassCount.Designer.cs">
       <DependentUpon>frmSchoolClassCount.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSendStudentOpenID.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSendStudentOpenID.Designer.cs">
+      <DependentUpon>frmSendStudentOpenID.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSpecial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +237,7 @@
     <Compile Include="SchoolClassTypeStudentCount .cs" />
     <Compile Include="SchoolClassStudentCount.cs" />
     <Compile Include="StudentChangeClass.cs" />
+    <Compile Include="StudentOpenIDInfo.cs" />
     <Compile Include="UDT\Action.cs" />
     <Compile Include="UDT\School.cs" />
     <Compile Include="UDT\SchoolLog.cs" />
@@ -267,6 +276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSchoolClassCount.resx">
       <DependentUpon>frmSchoolClassCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSendStudentOpenID.resx">
+      <DependentUpon>frmSendStudentOpenID.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSpecial.resx">
       <DependentUpon>frmSpecial.cs</DependentUpon>

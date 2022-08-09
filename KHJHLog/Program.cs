@@ -80,6 +80,11 @@ namespace KHJHLog
             Manager.SyncSchema(new Action());
             Manager.SyncSchema(new upload_url());
 
+
+            // 測試
+            MainPanel.RibbonBarItems["OpenID"]["傳送學生OpenID"].Click += (sender, e) => new frmSendStudentOpenID().ShowDialog();
+
+
             MainPanel.RibbonBarItems["自動編班"]["動作設定"].Image = Properties.Resources.achievement_config_128;
             MainPanel.RibbonBarItems["自動編班"]["動作設定"].Size = RibbonBarButton.MenuButtonSize.Medium;
             MainPanel.RibbonBarItems["自動編班"]["動作設定"].Click += (sender, e) => new frmActionList().ShowDialog();
