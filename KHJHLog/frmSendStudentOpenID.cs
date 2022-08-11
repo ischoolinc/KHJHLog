@@ -130,17 +130,13 @@ namespace KHJHLog
         private void LoadSchoolNameDict()
         {
             SchoolNameIDDict.Clear();
-            string qry = "SELECT school_name,school_id,dsns FROM $openid.school.list";
-            QueryHelper qh = new QueryHelper();
-            DataTable dt = qh.Select(qry);
-            foreach (DataRow dr in dt.Rows)
+            List<SchoolOpenIDInfo> schoolList = Utility.GetSchoolOpenIDInfoList();
+            
+            foreach(SchoolOpenIDInfo si in schoolList)
             {
-                string SchoolName = dr["school_name"] + "";
-                string SchoolID = dr["school_id"] + "";
-                if (!SchoolNameIDDict.ContainsKey(SchoolName))
-                    SchoolNameIDDict.Add(SchoolName, SchoolID);
+                if (!SchoolNameIDDict.ContainsKey(si.SchoolName))
+                    SchoolNameIDDict.Add(si.SchoolName, si.SchoolID);
             }
-
         }
 
         private void btnReadTextFile_Click(object sender, EventArgs e)

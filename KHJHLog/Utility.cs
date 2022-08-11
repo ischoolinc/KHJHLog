@@ -3,6 +3,9 @@ using FISCA.Presentation.Controls;
 using FISCA.UDT;
 using System.IO;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using FISCA.Data;
+using System.Data;
 
 namespace KHJHLog
 {
@@ -84,5 +87,29 @@ namespace KHJHLog
                 }
             }
         }
+
+        /// <summary>
+        ///  取得 OpenID學校資訊
+        /// </summary>
+        /// <returns></returns>
+        public static List<SchoolOpenIDInfo> GetSchoolOpenIDInfoList()
+        {
+            List<SchoolOpenIDInfo> value = new List<SchoolOpenIDInfo>();
+            string qry = "SELECT school_name,school_id,dsns,school_code FROM $openid.school.list";
+            QueryHelper qh = new QueryHelper();
+            DataTable dt = qh.Select(qry);
+            foreach (DataRow dr in dt.Rows)
+            {
+                SchoolOpenIDInfo si = new SchoolOpenIDInfo();
+                si.SchoolName = dr["school_name"] + "";
+                si.SchoolID = dr["school_id"] + "";
+                si.SchoolCode = dr["school_code"] + "";
+                si.DSNS = dr["dsns"] + "";
+                value.Add(si);
+            }
+
+            return value;
+        }
+
     }
 }

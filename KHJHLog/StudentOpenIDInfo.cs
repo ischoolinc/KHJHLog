@@ -17,6 +17,8 @@ namespace KHJHLog
 
         public string SeatNo { get; set; }
 
+        public string SchoolCode { get; set; }
+
         public string StudentNumer { get; set; }
 
         public string ExportSchoolName { get; set; }

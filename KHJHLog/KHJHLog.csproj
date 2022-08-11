@@ -113,6 +113,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassOpenIDInfo.cs" />
     <Compile Include="ClassOrder.cs" />
     <Compile Include="ClassOrderExtension.cs" />
     <Compile Include="Club\frmClassDetail.cs">
@@ -181,11 +182,23 @@
     <Compile Include="frmSchoolClassCount.Designer.cs">
       <DependentUpon>frmSchoolClassCount.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSendClassOpenIDBatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSendClassOpenIDBatch.Designer.cs">
+      <DependentUpon>frmSendClassOpenIDBatch.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSendStudentOpenID.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmSendStudentOpenID.Designer.cs">
       <DependentUpon>frmSendStudentOpenID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSendStudentOpenIDBatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSendStudentOpenIDBatch.Designer.cs">
+      <DependentUpon>frmSendStudentOpenIDBatch.cs</DependentUpon>
     </Compile>
     <Compile Include="frmSpecial.cs">
       <SubType>Form</SubType>
@@ -236,6 +249,7 @@
     <Compile Include="SchoolClassFinalData.cs" />
     <Compile Include="SchoolClassTypeStudentCount .cs" />
     <Compile Include="SchoolClassStudentCount.cs" />
+    <Compile Include="SchoolOpenIDInfo.cs" />
     <Compile Include="StudentChangeClass.cs" />
     <Compile Include="StudentOpenIDInfo.cs" />
     <Compile Include="UDT\Action.cs" />
@@ -277,8 +291,14 @@
     <EmbeddedResource Include="frmSchoolClassCount.resx">
       <DependentUpon>frmSchoolClassCount.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmSendClassOpenIDBatch.resx">
+      <DependentUpon>frmSendClassOpenIDBatch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmSendStudentOpenID.resx">
       <DependentUpon>frmSendStudentOpenID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSendStudentOpenIDBatch.resx">
+      <DependentUpon>frmSendStudentOpenIDBatch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSpecial.resx">
       <DependentUpon>frmSpecial.cs</DependentUpon>

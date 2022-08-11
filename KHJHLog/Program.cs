@@ -81,8 +81,15 @@ namespace KHJHLog
             Manager.SyncSchema(new upload_url());
 
 
-            // 測試
-            MainPanel.RibbonBarItems["OpenID"]["傳送學生OpenID"].Click += (sender, e) => new frmSendStudentOpenID().ShowDialog();
+            // OpenID
+            MainPanel.RibbonBarItems["OpenID"]["傳送學生OpenID)"].Click += (sender, e) => new frmSendStudentOpenID().ShowDialog();
+            MainPanel.RibbonBarItems["OpenID"]["傳送學生OpenID)"].Enable = Permissions.傳送學生OpenID權限;
+
+            MainPanel.RibbonBarItems["OpenID"]["批次傳送學生OpenID)"].Click += (sender, e) => new frmSendStudentOpenIDBatch().ShowDialog();
+            MainPanel.RibbonBarItems["OpenID"]["批次傳送學生OpenID)"].Enable = Permissions.批次傳送學生OpenID權限;
+
+            MainPanel.RibbonBarItems["OpenID"]["批次傳送班級OpenID)"].Click += (sender, e) => new frmSendClassOpenIDBatch().ShowDialog();
+            MainPanel.RibbonBarItems["OpenID"]["批次傳送班級OpenID)"].Enable = Permissions.批次傳送班級OpenID權限;
 
 
             MainPanel.RibbonBarItems["自動編班"]["動作設定"].Image = Properties.Resources.achievement_config_128;
@@ -151,6 +158,10 @@ namespace KHJHLog
             FISCA.Permission.Catalog AdminCatalog = FISCA.Permission.RoleAclSource.Instance["自動編班"]["功能按鈕"];
             AdminCatalog.Add(new RibbonFeature(Permissions.查詢紀錄, "查詢紀錄"));
             AdminCatalog.Add(new RibbonFeature(Permissions.動作設定, "動作設定"));
+
+            AdminCatalog.Add(new RibbonFeature(Permissions.傳送學生OpenID, "傳送學生OpenID"));
+            AdminCatalog.Add(new RibbonFeature(Permissions.批次傳送學生OpenID, "批次傳送學生OpenID"));
+            AdminCatalog.Add(new RibbonFeature(Permissions.批次傳送班級OpenID, "批次傳送班級OpenID"));
         }
 
         private static void InitMainPanel()
