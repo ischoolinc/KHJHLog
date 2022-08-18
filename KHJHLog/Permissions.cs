@@ -23,13 +23,13 @@ namespace KHJHLog
             }
         }
 
-        public static string 傳送學生OpenID { get { return "A13BA3F7-03D4-468A-B59F-022694A45E61"; } }
+        public static string 傳送轉學學生OpenID { get { return "A13BA3F7-03D4-468A-B59F-022694A45E61"; } }
 
-        public static bool 傳送學生OpenID權限
+        public static bool 傳送轉學學生OpenID權限
         {
             get
             {
-                return FISCA.Permission.UserAcl.Current[傳送學生OpenID].Executable;
+                return FISCA.Permission.UserAcl.Current[傳送轉學學生OpenID].Executable;
             }
         }
 

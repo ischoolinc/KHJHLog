@@ -16,5 +16,11 @@ namespace KHJHLog
         public string ClassType { get; set; } // 類別
         public string ClassNameB64 { get; set; } // 班級B64
 
+        public string SchoolName { get; set; }
+        public string SchoolID { get; set; }
+
+        public string RspContent { get; set; }
+
+        public string strSchoolYearSems { get; set; }
     }
 }

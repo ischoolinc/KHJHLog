@@ -149,7 +149,7 @@
             this.Controls.Add(this.btnSend);
             this.DoubleBuffered = true;
             this.Name = "frmSendStudentOpenID";
-            this.Text = "傳送學生OpenID";
+            this.Text = "傳送轉學學生OpenID";
             this.Load += new System.EventHandler(this.frmSendStudentOpenID_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
             this.ResumeLayout(false);

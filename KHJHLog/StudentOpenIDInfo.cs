@@ -36,5 +36,8 @@ namespace KHJHLog
         public string RspReq1 { get; set; }
         public string RspReq2 { get; set; }
         public string RspReq3 { get; set; }
+        public string SchoolName { get; set; }
+        public string SchoolID { get; set; }
+
     }
 }

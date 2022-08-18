@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using FISCA.Data;
 using System.Data;
+using System;
+using System.Xml.Linq;
 
 namespace KHJHLog
 {
@@ -111,5 +113,34 @@ namespace KHJHLog
             return value;
         }
 
+        public static string WriteOpenSendLog(string ActionName, string ReqContent, string RspContent)
+        {
+            string value = "";
+            ReqContent = ReqContent.Replace("'", "''");
+            RspContent = RspContent.Replace("'", "''");
+            string query = "INSERT INTO $openid.send.log(action_name,request_content,response_content) VALUES('" + ActionName + "','" + ReqContent + "','" + RspContent + "');";
+
+            try
+            {
+                UpdateHelper uh = new UpdateHelper();
+                uh.Execute(query);
+            }
+            catch (Exception ex)
+            {
+                value = ex.Message;
+            }
+
+            return value;
+        }
+
+
+        public static string GetElementString(XElement elm, string name)
+        {
+            string value = "";
+            if (elm.Element(name) != null)
+                value = elm.Element(name).Value;
+
+            return value;
+        }
     }
 }

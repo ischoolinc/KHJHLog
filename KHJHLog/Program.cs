@@ -82,8 +82,8 @@ namespace KHJHLog
 
 
             // OpenID
-            MainPanel.RibbonBarItems["OpenID"]["傳送學生OpenID)"].Click += (sender, e) => new frmSendStudentOpenID().ShowDialog();
-            MainPanel.RibbonBarItems["OpenID"]["傳送學生OpenID)"].Enable = Permissions.傳送學生OpenID權限;
+            MainPanel.RibbonBarItems["OpenID"]["傳送轉學學生OpenID)"].Click += (sender, e) => new frmSendStudentOpenID().ShowDialog();
+            MainPanel.RibbonBarItems["OpenID"]["傳送轉學學生OpenID)"].Enable = Permissions.傳送轉學學生OpenID權限;
 
             MainPanel.RibbonBarItems["OpenID"]["批次傳送學生OpenID)"].Click += (sender, e) => new frmSendStudentOpenIDBatch().ShowDialog();
             MainPanel.RibbonBarItems["OpenID"]["批次傳送學生OpenID)"].Enable = Permissions.批次傳送學生OpenID權限;
@@ -159,7 +159,7 @@ namespace KHJHLog
             AdminCatalog.Add(new RibbonFeature(Permissions.查詢紀錄, "查詢紀錄"));
             AdminCatalog.Add(new RibbonFeature(Permissions.動作設定, "動作設定"));
 
-            AdminCatalog.Add(new RibbonFeature(Permissions.傳送學生OpenID, "傳送學生OpenID"));
+            AdminCatalog.Add(new RibbonFeature(Permissions.傳送轉學學生OpenID, "傳送轉學學生OpenID"));
             AdminCatalog.Add(new RibbonFeature(Permissions.批次傳送學生OpenID, "批次傳送學生OpenID"));
             AdminCatalog.Add(new RibbonFeature(Permissions.批次傳送班級OpenID, "批次傳送班級OpenID"));
         }

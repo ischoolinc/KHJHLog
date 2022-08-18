@@ -11,8 +11,6 @@ using FISCA.Presentation.Controls;
 using FISCA.DSAClient;
 using System.Xml.Linq;
 using System.IO;
-using FISCA.Data;
-using System.Net;
 
 namespace KHJHLog
 {
@@ -41,6 +39,7 @@ namespace KHJHLog
 
             Connection con = new Connection();
 
+
             if (FISCA.Authentication.DSAServices.PassportToken == null)
             {
                 FISCA.Presentation.Controls.MsgBox.Show("Greening Passport 認證失敗，請檢查登入帳號!");
@@ -66,15 +65,15 @@ namespace KHJHLog
                 StudentOpenIDInfo so = drv.Tag as StudentOpenIDInfo;
                 if (so != null)
                 {
-                    so.IDNumberB64 = GetElementString(elmResponse, "IDNumberB64");
-                    so.GenderB64 = GetElementString(elmResponse, "GenderB64");
-                    so.NameB64 = GetElementString(elmResponse, "NameB64");
+                    so.IDNumberB64 = Utility.GetElementString(elmResponse, "IDNumberB64");
+                    so.GenderB64 = Utility.GetElementString(elmResponse, "GenderB64");
+                    so.NameB64 = Utility.GetElementString(elmResponse, "NameB64");
                 }
 
                 string reqRemove = "", req1 = "", req2 = "", req3 = "";
                 if (!string.IsNullOrEmpty(so.ExportSchoolID))
                 {
-                    reqRemove = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ExportSchoolID + "/"+ so.IDNumberB64 + "/remove";
+                    reqRemove = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ExportSchoolID + "/" + so.IDNumberB64 + "/remove";
                 }
 
                 if (!string.IsNullOrEmpty(so.ImportSchoolID))
@@ -94,29 +93,24 @@ namespace KHJHLog
                 Envelope ResponseS = con.SendRequest("_.SendStudentOpenID", new Envelope(reqS));
 
                 XElement elmResponseS = XElement.Load(new StringReader(ResponseS.Body.XmlString));
-                so.RspRemove = GetElementString(elmResponseS, "RspRemove");
-                so.RspReq1 = GetElementString(elmResponseS, "Rsp1");
-                so.RspReq2 = GetElementString(elmResponseS, "Rsp2");
-                so.RspReq3 = GetElementString(elmResponseS, "Rsp3");
+                so.RspRemove = Utility.GetElementString(elmResponseS, "RspRemove");
+                so.RspReq1 = Utility.GetElementString(elmResponseS, "Rsp1");
+                so.RspReq2 = Utility.GetElementString(elmResponseS, "Rsp2");
+                so.RspReq3 = Utility.GetElementString(elmResponseS, "Rsp3");
                 drv.Tag = so;
                 drv.Cells["移除轉出學校"].Value = so.RspRemove;
                 drv.Cells["呼叫回傳1"].Value = so.RspReq1;
                 drv.Cells["呼叫回傳2"].Value = so.RspReq2;
                 drv.Cells["呼叫回傳3"].Value = so.RspReq3;
 
+                // 寫入 Log
+                Utility.WriteOpenSendLog("傳送轉學學生OpenID", elmReqS.ToString(), elmResponseS.ToString());
+
             }
 
+            MsgBox.Show("傳送完成");
             btnSend.Enabled = true;
 
-        }
-
-        private string GetElementString(XElement elm, string name)
-        {
-            string value = "";
-            if (elm.Element(name) != null)
-                value = elm.Element(name).Value;
-
-            return value;
         }
 
         private void frmSendStudentOpenID_Load(object sender, EventArgs e)
@@ -131,8 +125,8 @@ namespace KHJHLog
         {
             SchoolNameIDDict.Clear();
             List<SchoolOpenIDInfo> schoolList = Utility.GetSchoolOpenIDInfoList();
-            
-            foreach(SchoolOpenIDInfo si in schoolList)
+
+            foreach (SchoolOpenIDInfo si in schoolList)
             {
                 if (!SchoolNameIDDict.ContainsKey(si.SchoolName))
                     SchoolNameIDDict.Add(si.SchoolName, si.SchoolID);

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FISCA.Presentation.Controls;
+using FISCA.DSAClient;
+using System.Xml.Linq;
 using System.IO;
 
 namespace KHJHLog
@@ -15,11 +17,8 @@ namespace KHJHLog
     public partial class frmSendClassOpenIDBatch : BaseForm
     {
         List<SchoolOpenIDInfo> SchoolInfoList;
-        // 學校代碼 學校名稱對照
-        Dictionary<string, string> SchoolCodeNameDict;
-
-        // 學校代碼 學校ID對照
-        Dictionary<string, string> SchoolCodeIDDict;
+        // 學校代碼 學校稱對照
+        Dictionary<string, SchoolOpenIDInfo> SchoolCodeShoolDict;
 
         List<ClassOpenIDInfo> ClassOpenIDInfoList;
 
@@ -27,8 +26,7 @@ namespace KHJHLog
         {
             InitializeComponent();
             SchoolInfoList = new List<SchoolOpenIDInfo>();
-            SchoolCodeNameDict = new Dictionary<string, string>();
-            SchoolCodeIDDict = new Dictionary<string, string>();
+            SchoolCodeShoolDict = new Dictionary<string, SchoolOpenIDInfo>();
             ClassOpenIDInfoList = new List<ClassOpenIDInfo>();
 
         }
@@ -40,6 +38,68 @@ namespace KHJHLog
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            btnSend.Enabled = false;
+
+            Connection con = new Connection();
+
+
+            if (FISCA.Authentication.DSAServices.PassportToken == null)
+            {
+                FISCA.Presentation.Controls.MsgBox.Show("Greening Passport 認證失敗，請檢查登入帳號!");
+            }
+
+            //取得局端登入後Greening發的Passport，並登入指定的Contract
+            con.Connect(FISCA.Authentication.DSAServices.DefaultDataSource.AccessPoint, "openid.sync", FISCA.Authentication.DSAServices.PassportToken);
+
+
+            // http://stuadm.kh.edu.tw/service/syncJHClass/khjh/110b/D/J/0/0/301
+
+
+            XElement elmReq = new XElement("Request");
+
+            foreach (DataGridViewRow drv in dgData.Rows)
+            {
+                if (drv.IsNewRow)
+                    continue;
+
+                ClassOpenIDInfo co = drv.Tag as ClassOpenIDInfo;
+
+                string value = @"http://stuadm.kh.edu.tw/service/syncJHClass/" + co.SchoolID + "/" + co.strSchoolYearSems + "/D/J/0/0/" + co.ClassName;
+                elmReq.SetElementValue("Req", value);
+
+            }
+
+            XmlHelper req = new XmlHelper(elmReq.ToString());
+
+            Envelope Response = con.SendRequest("_.SendData", new Envelope(req));
+
+            XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
+
+            // 填入回傳
+            try
+            {
+                XElement elmRsp = XElement.Parse(elmResponse.ToString());
+                int rowIdx = 0;
+                foreach(XElement elm in elmRsp.Elements("Rsp"))
+                {
+                    if (dgData.Rows[rowIdx] != null)
+                    {
+                        dgData.Rows[rowIdx].Cells["呼叫回傳"].Value = elm.Value;
+                    }                        
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            // 寫入 Log
+            Utility.WriteOpenSendLog("傳送班級", elmReq.ToString(), elmResponse.ToString());
+
+            MsgBox.Show("傳送完成");
+            btnSend.Enabled = true;
+
+
 
         }
 
@@ -75,6 +135,7 @@ namespace KHJHLog
                             if (p1.Count > 10)
                             {
                                 string ssy = p1[0];
+                                ci.strSchoolYearSems = ssy;
                                 if (ssy.Length == 4)
                                 {
                                     ci.SchoolYear = ssy.Substring(0, 3);
@@ -89,6 +150,13 @@ namespace KHJHLog
                                 }
 
                                 ci.SchoolCode = p1[1];
+
+                                if (SchoolCodeShoolDict.ContainsKey(ci.SchoolCode))
+                                {
+                                    ci.SchoolName = SchoolCodeShoolDict[ci.SchoolCode].SchoolName;
+                                    ci.SchoolID = SchoolCodeShoolDict[ci.SchoolCode].SchoolID;
+                                }
+
                                 ci.ClassName = p1[7];
                                 ci.ClassDisplayName = p1[8];
                                 ci.ClassType = p1[9];
@@ -109,7 +177,26 @@ namespace KHJHLog
 
         private void frmSendClassOpenIDBatch_Load(object sender, EventArgs e)
         {
+            btnReadTextFile.Enabled = btnSend.Enabled = false;
+
             LoadDataGridViewColumns();
+            try
+            {
+                // 讀取學校資訊
+                SchoolCodeShoolDict.Clear();
+                List<SchoolOpenIDInfo> SchoolOpenIDInfoList = Utility.GetSchoolOpenIDInfoList();
+                foreach (SchoolOpenIDInfo si in SchoolOpenIDInfoList)
+                {
+                    if (!SchoolCodeShoolDict.ContainsKey(si.SchoolCode))
+                        SchoolCodeShoolDict.Add(si.SchoolCode, si);
+                }
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Show(ex.Message);
+            }
+
+            btnReadTextFile.Enabled = btnSend.Enabled = true;
         }
 
         private void LoadDataGridViewColumns()
@@ -134,6 +221,12 @@ namespace KHJHLog
             tbSchoolCode.HeaderText = "學校代碼";
             tbSchoolCode.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+            DataGridViewTextBoxColumn tbSchoolName = new DataGridViewTextBoxColumn();
+            tbSchoolName.Name = "學校名稱";
+            tbSchoolName.Width = 150;
+            tbSchoolName.HeaderText = "學校名稱";
+            tbSchoolName.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             DataGridViewTextBoxColumn tbClassName = new DataGridViewTextBoxColumn();
             tbClassName.Name = "班級";
             tbClassName.Width = 100;
@@ -152,13 +245,20 @@ namespace KHJHLog
             tbClassType.HeaderText = "類別";
             tbClassType.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+            DataGridViewTextBoxColumn tbRsp = new DataGridViewTextBoxColumn();
+            tbRsp.Name = "呼叫回傳";
+            tbRsp.Width = 200;
+            tbRsp.HeaderText = "呼叫回傳";
+            tbRsp.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
             dgData.Columns.Add(tbSchoolYear);
             dgData.Columns.Add(tbSemester);
             dgData.Columns.Add(tbSchoolCode);
+            dgData.Columns.Add(tbSchoolName);
             dgData.Columns.Add(tbClassName);
             dgData.Columns.Add(tbClassDispaly);
             dgData.Columns.Add(tbClassType);
-
+            dgData.Columns.Add(tbRsp);
         }
 
         private void LoadDataToDataGridView()
@@ -171,9 +271,11 @@ namespace KHJHLog
                 dgData.Rows[rowIdx].Cells["學年度"].Value = ci.SchoolYear;
                 dgData.Rows[rowIdx].Cells["學期"].Value = ci.Semester;
                 dgData.Rows[rowIdx].Cells["學校代碼"].Value = ci.SchoolCode;
+                dgData.Rows[rowIdx].Cells["學校名稱"].Value = ci.SchoolName;
                 dgData.Rows[rowIdx].Cells["班級"].Value = ci.ClassName;
                 dgData.Rows[rowIdx].Cells["顯示班級"].Value = ci.ClassDisplayName;
                 dgData.Rows[rowIdx].Cells["類別"].Value = ci.ClassType;
+                dgData.Rows[rowIdx].Cells["呼叫回傳"].Value = ci.RspContent;
             }
             lblCount.Text = "共 " + dgData.Rows.Count + " 筆";
         }
