@@ -38,6 +38,12 @@ namespace KHJHLog
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            if (dgData.Rows.Count == 0)
+            {
+                MsgBox.Show("沒有資料 ");
+                return;
+            }
+
             btnSend.Enabled = false;
 
             Connection con = new Connection();

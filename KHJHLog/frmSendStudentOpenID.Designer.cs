@@ -148,6 +148,7 @@
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnSend);
             this.DoubleBuffered = true;
+            this.MaximizeBox = true;
             this.Name = "frmSendStudentOpenID";
             this.Text = "傳送轉學學生OpenID";
             this.Load += new System.EventHandler(this.frmSendStudentOpenID_Load);

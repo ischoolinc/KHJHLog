@@ -82,14 +82,14 @@ namespace KHJHLog
 
 
             // OpenID
-            MainPanel.RibbonBarItems["OpenID"]["傳送轉學學生OpenID)"].Click += (sender, e) => new frmSendStudentOpenID().ShowDialog();
-            MainPanel.RibbonBarItems["OpenID"]["傳送轉學學生OpenID)"].Enable = Permissions.傳送轉學學生OpenID權限;
+            MainPanel.RibbonBarItems["OpenID"]["傳送轉學學生OpenID"].Click += (sender, e) => new frmSendStudentOpenID().ShowDialog();
+            MainPanel.RibbonBarItems["OpenID"]["傳送轉學學生OpenID"].Enable = Permissions.傳送轉學學生OpenID權限;
 
-            MainPanel.RibbonBarItems["OpenID"]["批次傳送學生OpenID)"].Click += (sender, e) => new frmSendStudentOpenIDBatch().ShowDialog();
-            MainPanel.RibbonBarItems["OpenID"]["批次傳送學生OpenID)"].Enable = Permissions.批次傳送學生OpenID權限;
+            MainPanel.RibbonBarItems["OpenID"]["批次傳送學生OpenID"].Click += (sender, e) => new frmSendStudentOpenIDBatch().ShowDialog();
+            MainPanel.RibbonBarItems["OpenID"]["批次傳送學生OpenID"].Enable = Permissions.批次傳送學生OpenID權限;
 
-            MainPanel.RibbonBarItems["OpenID"]["批次傳送班級OpenID)"].Click += (sender, e) => new frmSendClassOpenIDBatch().ShowDialog();
-            MainPanel.RibbonBarItems["OpenID"]["批次傳送班級OpenID)"].Enable = Permissions.批次傳送班級OpenID權限;
+            MainPanel.RibbonBarItems["OpenID"]["批次傳送班級OpenID"].Click += (sender, e) => new frmSendClassOpenIDBatch().ShowDialog();
+            MainPanel.RibbonBarItems["OpenID"]["批次傳送班級OpenID"].Enable = Permissions.批次傳送班級OpenID權限;
 
 
             MainPanel.RibbonBarItems["自動編班"]["動作設定"].Image = Properties.Resources.achievement_config_128;
