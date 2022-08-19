@@ -60,18 +60,56 @@ namespace KHJHLog
 
             // http://stuadm.kh.edu.tw/service/syncJHClass/khjh/110b/D/J/0/0/301
 
+            // 取得班級 B64
+            XElement elmReqc = new XElement("Request");
+            Dictionary<string, string> classNameB64Dict = new Dictionary<string, string>();
+            foreach (DataGridViewRow drv in dgData.Rows)
+            {
+                ClassOpenIDInfo co = drv.Tag as ClassOpenIDInfo;
+                if (co != null)
+                {
+                    XElement elmc1 = new XElement("ClassRec");
+                    elmc1.SetElementValue("ClassName", co.ClassDisplayName);
+                    elmReqc.Add(elmc1);
+                }
+            }
+
+            XmlHelper reqC = new XmlHelper(elmReqc.ToString());
+            Envelope ResponseC = con.SendRequest("_.GetClassNameB64Batch", new Envelope(reqC));
+            XElement elmResponseC = XElement.Load(new StringReader(ResponseC.Body.XmlString));
+            foreach (XElement elmc in elmResponseC.Elements("Rsp"))
+            {
+                string cName = Utility.GetElementString(elmc, "ClassNameSource");
+                string cNameB64 = Utility.GetElementString(elmc, "ClassNameB64");
+                if (!classNameB64Dict.ContainsKey(cName))
+                    classNameB64Dict.Add(cName, cNameB64);
+            }
 
             XElement elmReq = new XElement("Request");
 
             foreach (DataGridViewRow drv in dgData.Rows)
             {
-                if (drv.IsNewRow)
-                    continue;
-
                 ClassOpenIDInfo co = drv.Tag as ClassOpenIDInfo;
+                if (co != null)
+                {
+                    if (classNameB64Dict.ContainsKey(co.ClassDisplayName))
+                    {
+                        co.ClassNameB64 = classNameB64Dict[co.ClassDisplayName];
+                        drv.Tag = co;
+                    }
+                }
+            }
 
-                string value = @"http://stuadm.kh.edu.tw/service/syncJHClass/" + co.SchoolID + "/" + co.strSchoolYearSems + "/D/J/0/0/" + co.ClassName;
-                elmReq.SetElementValue("Req", value);
+
+            foreach (DataGridViewRow drv in dgData.Rows)
+            {
+                ClassOpenIDInfo co = drv.Tag as ClassOpenIDInfo;
+                if (co != null)
+                {
+                    string value = @"http://stuadm.kh.edu.tw/service/syncJHClass/" + co.SchoolID + "/" + co.strSchoolYearSems + "/D/J/0/0/" + co.ClassName + "/className/" + co.ClassNameB64;
+                    XElement elm = new XElement("Req", value);
+                    elmReq.Add(elm);
+                }
 
             }
 
@@ -86,12 +124,13 @@ namespace KHJHLog
             {
                 XElement elmRsp = XElement.Parse(elmResponse.ToString());
                 int rowIdx = 0;
-                foreach(XElement elm in elmRsp.Elements("Rsp"))
+                foreach (XElement elm in elmRsp.Elements("Rsp"))
                 {
                     if (dgData.Rows[rowIdx] != null)
                     {
                         dgData.Rows[rowIdx].Cells["呼叫回傳"].Value = elm.Value;
-                    }                        
+                        rowIdx++;
+                    }
                 }
             }
             catch (Exception ex)
@@ -164,6 +203,20 @@ namespace KHJHLog
                                 }
 
                                 ci.ClassName = p1[7];
+
+                                // 班級需要轉 7,8,9
+                                if (ci.ClassName.Length > 2)
+                                {
+                                    string ck1 = ci.ClassName.Substring(0, 1);
+                                    string ck2 = ci.ClassName.Substring(1, ci.ClassName.Length - 1);
+                                    if (ck1 == "1")
+                                        ci.ClassName = "7" + ck2;
+                                    if (ck1 == "2")
+                                        ci.ClassName = "8" + ck2;
+                                    if (ck1 == "3")
+                                        ci.ClassName = "9" + ck2;
+                                }
+
                                 ci.ClassDisplayName = p1[8];
                                 ci.ClassType = p1[9];
                                 ClassOpenIDInfoList.Add(ci);
@@ -253,7 +306,7 @@ namespace KHJHLog
 
             DataGridViewTextBoxColumn tbRsp = new DataGridViewTextBoxColumn();
             tbRsp.Name = "呼叫回傳";
-            tbRsp.Width = 200;
+            tbRsp.Width = 300;
             tbRsp.HeaderText = "呼叫回傳";
             tbRsp.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
