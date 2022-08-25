@@ -11,6 +11,7 @@ using FISCA.Presentation.Controls;
 using FISCA.DSAClient;
 using System.Xml.Linq;
 using System.IO;
+using Aspose.Cells;
 
 namespace KHJHLog
 {
@@ -58,7 +59,7 @@ namespace KHJHLog
             con.Connect(FISCA.Authentication.DSAServices.DefaultDataSource.AccessPoint, "openid.sync", FISCA.Authentication.DSAServices.PassportToken);
 
 
-            // http://stuadm.kh.edu.tw/service/syncJHClass/khjh/110b/D/J/0/0/301
+            // http://stuadm.kh.edu.tw/service/syncJHClass/khjh/110b/D/J/0/301
 
             // 取得班級 B64
             XElement elmReqc = new XElement("Request");
@@ -106,7 +107,7 @@ namespace KHJHLog
                 ClassOpenIDInfo co = drv.Tag as ClassOpenIDInfo;
                 if (co != null)
                 {
-                    string value = @"http://stuadm.kh.edu.tw/service/syncJHClass/" + co.SchoolID + "/" + co.strSchoolYearSems + "/D/J/0/0/" + co.ClassName + "/className/" + co.ClassNameB64;
+                    string value = @"http://stuadm.kh.edu.tw/service/syncJHClass/" + co.SchoolID + "/" + co.strSchoolYearSems + "/D/J/0/" + co.ClassName + "/className/" + co.ClassNameB64;
                     XElement elm = new XElement("Req", value);
                     elmReq.Add(elm);
                 }
@@ -130,6 +131,7 @@ namespace KHJHLog
                     {
                         dgData.Rows[rowIdx].Cells["呼叫回傳"].Value = elm.Value;
                         rowIdx++;
+                        
                     }
                 }
             }
@@ -337,6 +339,43 @@ namespace KHJHLog
                 dgData.Rows[rowIdx].Cells["呼叫回傳"].Value = ci.RspContent;
             }
             lblCount.Text = "共 " + dgData.Rows.Count + " 筆";
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            btnExcel.Enabled = false;
+
+            if (dgData.Rows.Count > 0)
+            {
+                Workbook wb = new Workbook();
+                Worksheet wst = wb.Worksheets[0];
+                int rowIdx = 1, colIdx = 0;
+                foreach (DataGridViewColumn col in dgData.Columns)
+                {
+                    wst.Cells[0, colIdx].PutValue(col.HeaderText);
+                    colIdx++;
+                }
+
+                foreach (DataGridViewRow dr in dgData.Rows)
+                {
+                    if (dr.IsNewRow)
+                        continue;
+                    colIdx = 0;
+                    foreach (DataGridViewCell cell in dr.Cells)
+                    {
+                        if (cell.Value != null)
+                        {
+                            wst.Cells[rowIdx, colIdx].PutValue(cell.Value.ToString());
+
+                        }
+                        colIdx++;
+                    }
+                    rowIdx++;
+                }
+                Utility.ExprotXls("批次傳送班級OpenID", wb);
+            }
+
+            btnExcel.Enabled = true;
         }
     }
 }

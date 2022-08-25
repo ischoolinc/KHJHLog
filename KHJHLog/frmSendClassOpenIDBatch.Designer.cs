@@ -35,6 +35,8 @@
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.btnExit = new DevComponents.DotNetBar.ButtonX();
             this.btnSend = new DevComponents.DotNetBar.ButtonX();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.btnExcel = new DevComponents.DotNetBar.ButtonX();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -136,14 +138,46 @@
             this.btnSend.Text = "傳送";
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
+            // labelX3
+            // 
+            this.labelX3.AutoSize = true;
+            this.labelX3.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.Class = "";
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.Location = new System.Drawing.Point(16, 12);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(101, 21);
+            this.labelX3.TabIndex = 15;
+            this.labelX3.Text = "解析後班級資料";
+            // 
+            // btnExcel
+            // 
+            this.btnExcel.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnExcel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExcel.AutoSize = true;
+            this.btnExcel.BackColor = System.Drawing.Color.Transparent;
+            this.btnExcel.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btnExcel.Location = new System.Drawing.Point(526, 379);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(146, 25);
+            this.btnExcel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btnExcel.TabIndex = 19;
+            this.btnExcel.Text = "將畫面資料匯出Excel";
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
+            // 
             // frmSendClassOpenIDBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1042, 416);
+            this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.lblCount);
             this.Controls.Add(this.btnReadTextFile);
             this.Controls.Add(this.dgData);
+            this.Controls.Add(this.labelX3);
             this.Controls.Add(this.labelX1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnSend);
@@ -166,5 +200,7 @@
         private DevComponents.DotNetBar.LabelX labelX1;
         private DevComponents.DotNetBar.ButtonX btnExit;
         private DevComponents.DotNetBar.ButtonX btnSend;
+        private DevComponents.DotNetBar.LabelX labelX3;
+        private DevComponents.DotNetBar.ButtonX btnExcel;
     }
 }

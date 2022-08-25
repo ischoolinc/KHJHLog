@@ -11,6 +11,7 @@ using FISCA.Presentation.Controls;
 using FISCA.DSAClient;
 using System.Xml.Linq;
 using System.IO;
+using Aspose.Cells;
 
 namespace KHJHLog
 {
@@ -343,5 +344,41 @@ namespace KHJHLog
             lblCount.Text = "共 " + dgData.Rows.Count + " 筆";
         }
 
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            btnExcel.Enabled = false;
+
+            if (dgData.Rows.Count > 0)
+            {
+                Workbook wb = new Workbook();
+                Worksheet wst = wb.Worksheets[0];
+                int rowIdx = 1, colIdx = 0;
+                foreach (DataGridViewColumn col in dgData.Columns)
+                {
+                    wst.Cells[0, colIdx].PutValue(col.HeaderText);
+                    colIdx++;
+                }
+
+                foreach (DataGridViewRow dr in dgData.Rows)
+                {
+                    if (dr.IsNewRow)
+                        continue;
+                    colIdx = 0;
+                    foreach (DataGridViewCell cell in dr.Cells)
+                    {
+                        if (cell.Value != null)
+                        {
+                            wst.Cells[rowIdx, colIdx].PutValue(cell.Value.ToString());
+
+                        }
+                        colIdx++;
+                    }
+                    rowIdx++;
+                }
+                Utility.ExprotXls("傳送轉學學生OpenID", wb);
+            }         
+
+            btnExcel.Enabled = true;
+        }
     }
 }

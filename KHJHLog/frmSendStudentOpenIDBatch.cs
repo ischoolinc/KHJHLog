@@ -11,6 +11,7 @@ using FISCA.Presentation.Controls;
 using FISCA.DSAClient;
 using System.Xml.Linq;
 using System.IO;
+using Aspose.Cells;
 
 namespace KHJHLog
 {
@@ -57,6 +58,9 @@ namespace KHJHLog
             //取得局端登入後Greening發的Passport，並登入指定的Contract
             con.Connect(FISCA.Authentication.DSAServices.DefaultDataSource.AccessPoint, "openid.sync", FISCA.Authentication.DSAServices.PassportToken);
 
+            int i = 1;
+            lblS.Visible = true;
+            lblS.Text = "0";
             foreach (DataGridViewRow drv in dgData.Rows)
             {
                 if (drv.IsNewRow)
@@ -116,8 +120,11 @@ namespace KHJHLog
                 // 寫入 Log
                 Utility.WriteOpenSendLog("傳送學生OpenID", elmReqS.ToString(), elmResponseS.ToString());
 
-            }
+                lblS.Text = i.ToString();
+                i++;
 
+            }
+            lblS.Visible = false;
             MsgBox.Show("傳送完成");
             btnSend.Enabled = true;
 
@@ -147,7 +154,7 @@ namespace KHJHLog
                     {
 
                         string str = sr.ReadLine();
-                        if (rowIdx > 1)
+                        if (rowIdx >= 1)
                         {
                             p1.Clear();
                             p1 = str.Split(';').ToList();
@@ -323,6 +330,43 @@ namespace KHJHLog
 
             }
             lblCount.Text = "共 " + dgData.Rows.Count + " 筆";
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            btnExcel.Enabled = false;
+
+            if (dgData.Rows.Count > 0)
+            {
+                Workbook wb = new Workbook();
+                Worksheet wst = wb.Worksheets[0];
+                int rowIdx = 1, colIdx = 0;
+                foreach (DataGridViewColumn col in dgData.Columns)
+                {
+                    wst.Cells[0, colIdx].PutValue(col.HeaderText);
+                    colIdx++;
+                }
+
+                foreach (DataGridViewRow dr in dgData.Rows)
+                {
+                    if (dr.IsNewRow)
+                        continue;
+                    colIdx = 0;
+                    foreach (DataGridViewCell cell in dr.Cells)
+                    {
+                        if (cell.Value != null)
+                        {
+                            wst.Cells[rowIdx, colIdx].PutValue(cell.Value.ToString());
+
+                        }
+                        colIdx++;
+                    }
+                    rowIdx++;
+                }
+                Utility.ExprotXls("批次傳送學生OpenID", wb);
+            }
+
+            btnExcel.Enabled = true;
         }
     }
 }
