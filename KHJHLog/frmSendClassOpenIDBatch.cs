@@ -107,7 +107,7 @@ namespace KHJHLog
                 ClassOpenIDInfo co = drv.Tag as ClassOpenIDInfo;
                 if (co != null)
                 {
-                    string value = @"http://stuadm.kh.edu.tw/service/syncJHClass/" + co.SchoolID + "/" + co.strSchoolYearSems + "/D/J/0/" + co.ClassName + "/className/" + co.ClassNameB64;
+                    string value = @"http://stuadm.kh.edu.tw/service/syncJClass/" + co.SchoolID + "/" + co.strSchoolYearSems + "/D/J/0/" + co.ClassName + "/className/" + co.ClassNameB64;
                     XElement elm = new XElement("Req", value);
                     elmReq.Add(elm);
                 }
