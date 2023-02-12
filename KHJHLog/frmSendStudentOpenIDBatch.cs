@@ -100,12 +100,12 @@ namespace KHJHLog
             //  整理資料
             foreach (DataGridViewRow drv in dgData.Rows)
             {
-                string className = drv.Cells["班級"].Value.ToString();
-                if (!elmReqSDict.ContainsKey(className))
-                {
-                    XElement elmReqS = new XElement("Request");
-                    elmReqSDict.Add(className, elmReqS);
-                }
+                //string className = drv.Cells["班級"].Value.ToString();
+                //if (!elmReqSDict.ContainsKey(className))
+                //{
+                //    XElement elmReqS = new XElement("Request");
+                //    elmReqSDict.Add(className, elmReqS);
+                //}
 
                 StudentOpenIDInfo so = drv.Tag as StudentOpenIDInfo;
 
@@ -131,38 +131,59 @@ namespace KHJHLog
                 {
                     reqRemove = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ExportSchoolID + "/" + so.IDNumberB64 + "/remove";
                 }
-
-                if (!string.IsNullOrEmpty(so.ImportSchoolID))
-                {
-                    req1 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumber + "/init";
-                    req2 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumberB64 + "/" + so.NameB64 + "/" + so.GenderB64 + "/" + so.BirthDate;
-                    req3 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumberB64 + "/D/J/0/" + so.ClassName + "/" + so.SeatNo + "/" + so.StudentNumer;
-                }
-
-
+                
                 try
                 {
-                    XElement elmSt = new XElement("Student");
-                    elmSt.SetElementValue("ReqRemove", reqRemove);
-                    elmSt.SetElementValue("Req1", req1);
-                    elmSt.SetElementValue("Req2", req2);
-                    elmSt.SetElementValue("Req3", req3);
-                    elmReqSDict[className].Add(elmSt);
+                    //XElement elmSt = new XElement("Student");
+                    //elmSt.SetElementValue("ReqRemove", reqRemove);
+                    //elmSt.SetElementValue("Req1", req1);
+                    //elmSt.SetElementValue("Req2", req2);
+                    //elmSt.SetElementValue("Req3", req3);
+                    //elmReqSDict[className].Add(elmSt);
+
+                    // 有解析轉入學校才送送
+                    if (!string.IsNullOrEmpty(so.ImportSchoolID))
+                    {
+                        req1 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumber + "/init";
+                        req2 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumberB64 + "/" + so.NameB64 + "/" + so.GenderB64 + "/" + so.BirthDate;
+                        req3 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumberB64 + "/D/J/0/" + so.ClassName + "/" + so.SeatNo + "/" + so.StudentNumer;
+
+                        // 檢查資料完成才送出
+                        bool pass = true;
+
+                        if (string.IsNullOrEmpty(so.IDNumberB64) || string.IsNullOrEmpty(so.NameB64) || string.IsNullOrEmpty(so.GenderB64) || string.IsNullOrEmpty(so.BirthDate) || string.IsNullOrEmpty(so.ClassName) || string.IsNullOrEmpty(so.SeatNo) || string.IsNullOrEmpty(so.StudentNumer))
+                        {
+                            pass = false;
+                        }
+
+                        if (pass)
+                        {
+                            XElement elmReqS = new XElement("Request");
+                            elmReqS.SetElementValue("ReqRemove", reqRemove);
+                            elmReqS.SetElementValue("Req1", req1);
+                            elmReqS.SetElementValue("Req2", req2);
+                            elmReqS.SetElementValue("Req3", req3);
+
+                            XmlHelper reqS = new XmlHelper(elmReqS.ToString());
+                            Envelope ResponseS = con.SendRequest("_.SendStudentOpenID", new Envelope(reqS));
+
+                            XElement elmResponseS = XElement.Load(new StringReader(ResponseS.Body.XmlString));
+                            so.RspRemove = Utility.GetElementString(elmResponseS, "RspRemove");
+                            so.RspReq1 = Utility.GetElementString(elmResponseS, "Rsp1");
+                            so.RspReq2 = Utility.GetElementString(elmResponseS, "Rsp2");
+                            so.RspReq3 = Utility.GetElementString(elmResponseS, "Rsp3");
+                            drv.Tag = so;
+                            drv.Cells["移除轉出學校"].Value = so.RspRemove;
+                            drv.Cells["呼叫回傳1"].Value = so.RspReq1;
+                            drv.Cells["呼叫回傳2"].Value = so.RspReq2;
+                            drv.Cells["呼叫回傳3"].Value = so.RspReq3;
+
+                            // 寫入 Log
+                            Utility.WriteOpenSendLog("傳送轉學學生OpenID", elmReqS.ToString(), elmResponseS.ToString());
+                        }
+                    }
 
 
-
-                    //so.RspRemove = Utility.GetElementString(elmResponseS, "RspRemove");
-                    //so.RspReq1 = Utility.GetElementString(elmResponseS, "Rsp1");
-                    //so.RspReq2 = Utility.GetElementString(elmResponseS, "Rsp2");
-                    //so.RspReq3 = Utility.GetElementString(elmResponseS, "Rsp3");
-                    //drv.Tag = so;
-                    //drv.Cells["移除轉出學校"].Value = so.RspRemove;
-                    //drv.Cells["呼叫回傳1"].Value = so.RspReq1;
-                    //drv.Cells["呼叫回傳2"].Value = so.RspReq2;
-                    //drv.Cells["呼叫回傳3"].Value = so.RspReq3;
-
-                    // 寫入 Log
-                    //Utility.WriteOpenSendLog("傳送學生OpenID", elmReqS.ToString(), elmResponseS.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -176,84 +197,18 @@ namespace KHJHLog
             }
 
 
-            // 以班級傳送
-            foreach (string className in elmReqSDict.Keys)
-            {
-                XmlHelper reqS = new XmlHelper(elmReqSDict[className].ToString());
-                Envelope ResponseS = con.SendRequest("_.SendStudentOpenIDBatch", new Envelope(reqS));
-                XElement elmResponseS = XElement.Load(new StringReader(ResponseS.Body.XmlString));
-                Utility.WriteOpenSendLog("傳送學生OpenID_班級:" + className, elmReqSDict[className].ToString(), elmResponseS.ToString());
-            }
-
+            //// 以班級傳送
+            //foreach (string className in elmReqSDict.Keys)
+            //{
+            //    XmlHelper reqS = new XmlHelper(elmReqSDict[className].ToString());
+            //    Envelope ResponseS = con.SendRequest("_.SendStudentOpenIDBatch", new Envelope(reqS));
+            //    XElement elmResponseS = XElement.Load(new StringReader(ResponseS.Body.XmlString));
+            //    Utility.WriteOpenSendLog("傳送學生OpenID_班級:" + className, elmReqSDict[className].ToString(), elmResponseS.ToString());
+            //}
 
             lblS.Visible = false;
             MsgBox.Show("傳送完成");
-
-            //foreach (DataGridViewRow drv in dgData.Rows)
-            //{
-            //    if (drv.IsNewRow)
-            //        continue;
-
-            //    XElement elmReq = new XElement("Request");
-            //    elmReq.SetElementValue("IDNumber", drv.Cells["身分證字號"].Value.ToString());
-            //    elmReq.SetElementValue("Gender", drv.Cells["性別"].Value.ToString());
-            //    elmReq.SetElementValue("Name", drv.Cells["姓名"].Value.ToString());
-
-            //    XmlHelper req = new XmlHelper(elmReq.ToString());
-            //    Envelope Response = con.SendRequest("_.GetIDNumberB64", new Envelope(req));
-
-            //    XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
-            //    StudentOpenIDInfo so = drv.Tag as StudentOpenIDInfo;
-            //    if (so != null)
-            //    {
-            //        so.IDNumberB64 = Utility.GetElementString(elmResponse, "IDNumberB64");
-            //        so.GenderB64 = Utility.GetElementString(elmResponse, "GenderB64");
-            //        so.NameB64 = Utility.GetElementString(elmResponse, "NameB64");
-            //    }
-
-            //    so.ImportSchoolID = so.ExportSchoolID = so.SchoolID;
-            //    string reqRemove = "", req1 = "", req2 = "", req3 = "";
-            //    if (!string.IsNullOrEmpty(so.ExportSchoolID))
-            //    {
-            //        reqRemove = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ExportSchoolID + "/" + so.IDNumberB64 + "/remove";
-            //    }
-
-            //    if (!string.IsNullOrEmpty(so.ImportSchoolID))
-            //    {
-            //        req1 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumber + "/init";
-            //        req2 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumberB64 + "/" + so.NameB64 + "/" + so.GenderB64 + "/" + so.BirthDate;
-            //        req3 = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ImportSchoolID + "/" + so.IDNumberB64 + "/D/J/0/" + so.ClassName + "/" + so.SeatNo + "/" + so.StudentNumer;
-            //    }
-
-            //    XElement elmReqS = new XElement("Request");
-            //    elmReqS.SetElementValue("ReqRemove", reqRemove);
-            //    elmReqS.SetElementValue("Req1", req1);
-            //    elmReqS.SetElementValue("Req2", req2);
-            //    elmReqS.SetElementValue("Req3", req3);
-
-            //    XmlHelper reqS = new XmlHelper(elmReqS.ToString());
-            //    Envelope ResponseS = con.SendRequest("_.SendStudentOpenID", new Envelope(reqS));
-
-            //    XElement elmResponseS = XElement.Load(new StringReader(ResponseS.Body.XmlString));
-            //    so.RspRemove = Utility.GetElementString(elmResponseS, "RspRemove");
-            //    so.RspReq1 = Utility.GetElementString(elmResponseS, "Rsp1");
-            //    so.RspReq2 = Utility.GetElementString(elmResponseS, "Rsp2");
-            //    so.RspReq3 = Utility.GetElementString(elmResponseS, "Rsp3");
-            //    drv.Tag = so;
-            //    drv.Cells["移除轉出學校"].Value = so.RspRemove;
-            //    drv.Cells["呼叫回傳1"].Value = so.RspReq1;
-            //    drv.Cells["呼叫回傳2"].Value = so.RspReq2;
-            //    drv.Cells["呼叫回傳3"].Value = so.RspReq3;
-
-            //    // 寫入 Log
-            //    Utility.WriteOpenSendLog("傳送學生OpenID", elmReqS.ToString(), elmResponseS.ToString());
-
-            //    lblS.Text = i.ToString();
-            //    i++;
-
-            //}
-            //lblS.Visible = false;
-            //MsgBox.Show("傳送完成");
+           
             btnSend.Enabled = true;
 
         }
@@ -495,6 +450,129 @@ namespace KHJHLog
             }
 
             btnExcel.Enabled = true;
+        }
+
+        private void btnRemoveOpenID_Click(object sender, EventArgs e)
+        {
+            if (dgData.Rows.Count == 0)
+            {
+                MsgBox.Show("沒有資料 ");
+                return;
+            }
+
+            btnRemoveOpenID.Enabled = false;
+
+            // 建立連線
+            Connection con = new Connection();
+
+
+            if (FISCA.Authentication.DSAServices.PassportToken == null)
+            {
+                FISCA.Presentation.Controls.MsgBox.Show("Greening Passport 認證失敗，請檢查登入帳號!");
+            }
+
+            //取得局端登入後Greening發的Passport，並登入指定的Contract
+            con.Connect(FISCA.Authentication.DSAServices.DefaultDataSource.AccessPoint, "openid.sync", FISCA.Authentication.DSAServices.PassportToken);
+            
+
+            Dictionary<string, StudentOpenIDInfo> StudInfoDict = new Dictionary<string, StudentOpenIDInfo>();
+            foreach (DataGridViewRow drv in dgData.Rows)
+            {
+                if (drv.IsNewRow)
+                    continue;
+
+                string idNumber = drv.Cells["身分證字號"].Value.ToString();
+                if (!StudInfoDict.ContainsKey(idNumber))
+                {
+                    StudentOpenIDInfo si = new StudentOpenIDInfo();
+                    si.IDNumber = idNumber;
+                    si.Gender = drv.Cells["性別"].Value.ToString();
+                    si.Name = drv.Cells["姓名"].Value.ToString();
+                    StudInfoDict.Add(idNumber, si);
+                }
+            }
+
+            XElement elmReq = new XElement("Request");
+            foreach (string idNumber in StudInfoDict.Keys)
+            {
+                XElement elm = new XElement("Student");
+                elm.SetElementValue("IDNumber", idNumber);
+                elm.SetElementValue("Gender", StudInfoDict[idNumber].Gender);
+                elm.SetElementValue("Name", StudInfoDict[idNumber].Name);
+                elmReq.Add(elm);
+            }
+            XmlHelper req = new XmlHelper(elmReq.ToString());
+            Envelope Response = con.SendRequest("_.GetIDNumberB64Batch", new Envelope(req));
+            XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
+
+            Dictionary<string, XElement> elmReqSDict = new Dictionary<string, XElement>();
+
+
+            //  XElement elmReqS = new XElement("Request");
+            int idx = 1;
+            //  整理資料
+            foreach (DataGridViewRow drv in dgData.Rows)
+            {
+                string className = drv.Cells["班級"].Value.ToString();
+                if (!elmReqSDict.ContainsKey(className))
+                {
+                    XElement elmReqS = new XElement("Request");
+                    elmReqSDict.Add(className, elmReqS);
+                }
+
+                StudentOpenIDInfo so = drv.Tag as StudentOpenIDInfo;
+
+                // 比對填值
+                if (so != null)
+                {
+                    foreach (XElement elmR in elmResponse.Elements("Rsp"))
+                    {
+                        string id = Utility.GetElementString(elmR, "IDNumberSource");
+                        if (so.IDNumber == id)
+                        {
+                            so.IDNumberB64 = Utility.GetElementString(elmR, "IDNumberB64");
+                            so.GenderB64 = Utility.GetElementString(elmR, "GenderB64");
+                            so.NameB64 = Utility.GetElementString(elmR, "NameB64");
+                            break;
+                        }
+                    }
+                }
+
+                so.ImportSchoolID = so.ExportSchoolID = so.SchoolID;
+                string reqRemove = "", req1 = "", req2 = "", req3 = "";
+                if (!string.IsNullOrEmpty(so.ExportSchoolID))
+                {
+                    reqRemove = @"http://stuadm.kh.edu.tw/service/syncJH/" + so.ExportSchoolID + "/" + so.IDNumberB64 + "/remove";
+                }
+
+                try
+                {
+                    XElement elmSt = new XElement("Student");
+                    elmSt.SetElementValue("ReqRemove", reqRemove);
+
+                    elmReqSDict[className].Add(elmSt);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+            }
+
+
+            // 以班級傳送
+            foreach (string className in elmReqSDict.Keys)
+            {
+                XmlHelper reqS = new XmlHelper(elmReqSDict[className].ToString());
+                Envelope ResponseS = con.SendRequest("_.SendStudentOpenIDRemove", new Envelope(reqS));
+                XElement elmResponseS = XElement.Load(new StringReader(ResponseS.Body.XmlString));
+                Utility.WriteOpenSendLog("傳送移除學生OpenID_班級:" + className, elmReqSDict[className].ToString(), elmResponseS.ToString());
+            }
+
+
+            lblS.Visible = false;
+            MsgBox.Show("傳送完成");
+            btnRemoveOpenID.Enabled = true;
         }
     }
 }

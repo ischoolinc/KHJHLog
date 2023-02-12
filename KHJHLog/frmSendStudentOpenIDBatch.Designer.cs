@@ -37,6 +37,7 @@
             this.btnSend = new DevComponents.DotNetBar.ButtonX();
             this.lblS = new DevComponents.DotNetBar.LabelX();
             this.btnExcel = new DevComponents.DotNetBar.ButtonX();
+            this.btnRemoveOpenID = new DevComponents.DotNetBar.ButtonX();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -168,11 +169,27 @@
             this.btnExcel.Text = "將畫面資料匯出Excel";
             this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
             // 
+            // btnRemoveOpenID
+            // 
+            this.btnRemoveOpenID.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnRemoveOpenID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveOpenID.AutoSize = true;
+            this.btnRemoveOpenID.BackColor = System.Drawing.Color.Transparent;
+            this.btnRemoveOpenID.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btnRemoveOpenID.Location = new System.Drawing.Point(364, 379);
+            this.btnRemoveOpenID.Name = "btnRemoveOpenID";
+            this.btnRemoveOpenID.Size = new System.Drawing.Size(146, 25);
+            this.btnRemoveOpenID.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btnRemoveOpenID.TabIndex = 21;
+            this.btnRemoveOpenID.Text = "移除學生OpenID";
+            this.btnRemoveOpenID.Click += new System.EventHandler(this.btnRemoveOpenID_Click);
+            // 
             // frmSendStudentOpenIDBatch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1042, 416);
+            this.Controls.Add(this.btnRemoveOpenID);
             this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.lblS);
             this.Controls.Add(this.lblCount);
@@ -202,5 +219,6 @@
         private DevComponents.DotNetBar.ButtonX btnSend;
         private DevComponents.DotNetBar.LabelX lblS;
         private DevComponents.DotNetBar.ButtonX btnExcel;
+        private DevComponents.DotNetBar.ButtonX btnRemoveOpenID;
     }
 }
