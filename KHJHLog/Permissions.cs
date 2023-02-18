@@ -52,5 +52,16 @@ namespace KHJHLog
                 return FISCA.Permission.UserAcl.Current[批次傳送班級OpenID].Executable;
             }
         }
+
+        public static string 查詢傳送OpenID { get { return "BFFB9F3C-D70C-4D57-B155-B57F168256F6"; } }
+
+        public static bool 查詢傳送OpenID權限
+        {
+            get
+            {
+                return FISCA.Permission.UserAcl.Current[查詢傳送OpenID].Executable;
+            }
+        }
+
     }
 }

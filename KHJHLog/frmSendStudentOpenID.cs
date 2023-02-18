@@ -126,7 +126,7 @@ namespace KHJHLog
                     {
                         SchoolOpenIDInfo si = SchoolCodeShoolDict[code];
 
-                      //  so.ImportSchoolID = so.ExportSchoolID = so.SchoolID;
+                        //  so.ImportSchoolID = so.ExportSchoolID = so.SchoolID;
                         string reqRemove = "";
                         reqRemove = @"http://stuadm.kh.edu.tw/service/syncJH/" + si.SchoolID + "/" + so.IDNumberB64 + "/remove";
 
@@ -194,7 +194,7 @@ namespace KHJHLog
                     // 檢查資料完成才送出
                     bool pass = true;
 
-                    if (string.IsNullOrEmpty(so.IDNumberB64) || string.IsNullOrEmpty(so.NameB64) || string.IsNullOrEmpty(so.GenderB64) || string.IsNullOrEmpty(so.BirthDate) || string.IsNullOrEmpty(so.ClassName) || string.IsNullOrEmpty(so.SeatNo)|| string.IsNullOrEmpty(so.StudentNumer))
+                    if (string.IsNullOrEmpty(so.IDNumberB64) || string.IsNullOrEmpty(so.NameB64) || string.IsNullOrEmpty(so.GenderB64) || string.IsNullOrEmpty(so.BirthDate) || string.IsNullOrEmpty(so.ClassName) || string.IsNullOrEmpty(so.SeatNo) || string.IsNullOrEmpty(so.StudentNumer))
                     {
                         pass = false;
                     }
@@ -206,6 +206,10 @@ namespace KHJHLog
                         elmReqS.SetElementValue("Req1", req1);
                         elmReqS.SetElementValue("Req2", req2);
                         elmReqS.SetElementValue("Req3", req3);
+                        elmReqS.SetElementValue("SchoolName", so.ImportSchoolName);
+                        elmReqS.SetElementValue("StudentName", so.Name);
+                        elmReqS.SetElementValue("StudentNumber", so.StudentNumer);
+                        elmReqS.SetElementValue("IDNumber", so.IDNumber);
 
                         XmlHelper reqS = new XmlHelper(elmReqS.ToString());
                         Envelope ResponseS = con.SendRequest("_.SendStudentOpenID", new Envelope(reqS));
@@ -308,12 +312,15 @@ namespace KHJHLog
                             string school = p1[13].Replace("(", "").Replace(")", "");
                             p2.Clear();
                             p2 = school.Split('>').ToList();
-                            if (p2.Count == 2)
+                            if (p2.Count > 1)
                             {
                                 so.ExportSchoolName = p2[0].Trim();
-                                so.ExportSchoolID = GetSchoolNameID(so.ExportSchoolName.Substring(0, 4));
+                                if (so.ExportSchoolName.Length > 3)
+                                    so.ExportSchoolID = GetSchoolNameID(so.ExportSchoolName.Substring(0, 4));
+
                                 so.ImportSchoolName = p2[1].Trim();
-                                so.ImportSchoolID = GetSchoolNameID(so.ImportSchoolName.Substring(0, 4));
+                                if (so.ImportSchoolName.Length > 3)
+                                    so.ImportSchoolID = GetSchoolNameID(so.ImportSchoolName.Substring(0, 4));
                             }
 
                             StudentOpenIDInfoList.Add(so);
@@ -510,6 +517,6 @@ namespace KHJHLog
 
             btnExcel.Enabled = true;
         }
-        
+
     }
 }

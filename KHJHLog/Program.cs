@@ -91,6 +91,9 @@ namespace KHJHLog
             MainPanel.RibbonBarItems["OpenID"]["批次傳送班級OpenID"].Click += (sender, e) => new frmSendClassOpenIDBatch().ShowDialog();
             MainPanel.RibbonBarItems["OpenID"]["批次傳送班級OpenID"].Enable = Permissions.批次傳送班級OpenID權限;
 
+            MainPanel.RibbonBarItems["OpenID"]["查詢傳送學生OpenID"].Click += (sender, e) => new frmAutoSyncView().ShowDialog();
+            MainPanel.RibbonBarItems["OpenID"]["查詢傳送學生OpenID"].Enable = Permissions.查詢傳送OpenID權限;
+
 
             MainPanel.RibbonBarItems["自動編班"]["動作設定"].Image = Properties.Resources.achievement_config_128;
             MainPanel.RibbonBarItems["自動編班"]["動作設定"].Size = RibbonBarButton.MenuButtonSize.Medium;
@@ -105,7 +108,7 @@ namespace KHJHLog
             //Jean 新增 局端解鎖 20191231
             MainPanel.RibbonBarItems["自動編班"]["局端手動解鎖"].Click += (sender, e) => new frmUnlock().ShowDialog();
             MainPanel.RibbonBarItems["自動編班"]["局端手動解鎖"].Image = Properties.Resources.classmate_128;
-             MainPanel.RibbonBarItems["自動編班"]["局端手動解鎖"].Size = RibbonBarButton.MenuButtonSize.Medium;
+            MainPanel.RibbonBarItems["自動編班"]["局端手動解鎖"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
 
             MainPanel.RibbonBarItems["自動編班"]["查詢編班"].Click += (sender, e) => new frmClassOrder().ShowDialog();
@@ -154,7 +157,7 @@ namespace KHJHLog
             MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Image = Properties.Resources.mask_zoom_64;
             MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
-    
+
             FISCA.Permission.Catalog AdminCatalog = FISCA.Permission.RoleAclSource.Instance["自動編班"]["功能按鈕"];
             AdminCatalog.Add(new RibbonFeature(Permissions.查詢紀錄, "查詢紀錄"));
             AdminCatalog.Add(new RibbonFeature(Permissions.動作設定, "動作設定"));
@@ -162,6 +165,8 @@ namespace KHJHLog
             AdminCatalog.Add(new RibbonFeature(Permissions.傳送轉學學生OpenID, "傳送轉學學生OpenID"));
             AdminCatalog.Add(new RibbonFeature(Permissions.批次傳送學生OpenID, "批次傳送學生OpenID"));
             AdminCatalog.Add(new RibbonFeature(Permissions.批次傳送班級OpenID, "批次傳送班級OpenID"));
+            AdminCatalog.Add(new RibbonFeature(Permissions.查詢傳送OpenID, "查詢傳送學生OpenID"));
+
         }
 
         private static void InitMainPanel()
