@@ -131,6 +131,11 @@ namespace KHJHLog
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            Run();
+        }
+
+        private void Run()
+        {
             Limit = intLimit.Value;
             IsAutoSyncChecked = chkAutoSync.Checked;
             btnSearch.Enabled = false;
@@ -142,6 +147,7 @@ namespace KHJHLog
             // 預設50筆
             intLimit.Value = 50;
             chkAutoSync.Checked = true;
+            Run();
         }
 
         private void LoadAutoSynColumns()
@@ -149,7 +155,7 @@ namespace KHJHLog
             dgData.Columns.Clear();
             DataGridViewTextBoxColumn tb_school_name = new DataGridViewTextBoxColumn();
             tb_school_name.Name = "學校名稱";
-            tb_school_name.Width = 100;
+            tb_school_name.Width = 120;
             tb_school_name.HeaderText = "學校名稱";
             tb_school_name.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tb_school_name.ReadOnly = true;
@@ -233,7 +239,7 @@ namespace KHJHLog
 
             DataGridViewTextBoxColumn tb_sync_excute_time = new DataGridViewTextBoxColumn();
             tb_sync_excute_time.Name = "執行時間";
-            tb_sync_excute_time.Width = 120;
+            tb_sync_excute_time.Width = 140;
             tb_sync_excute_time.HeaderText = "執行時間";
             tb_sync_excute_time.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             tb_sync_excute_time.ReadOnly = true;
@@ -423,7 +429,7 @@ namespace KHJHLog
 
             DataGridViewTextBoxColumn tbDate = new DataGridViewTextBoxColumn();
             tbDate.Name = "執行時間";
-            tbDate.Width = 130;
+            tbDate.Width = 140;
             tbDate.HeaderText = "執行時間";
             tbDate.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
