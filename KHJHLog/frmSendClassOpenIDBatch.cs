@@ -173,7 +173,7 @@ namespace KHJHLog
                     {
 
                         string str = sr.ReadLine();
-                        if (rowIdx > 1)
+                        if (rowIdx >= 1)
                         {
                             p1.Clear();
                             p1 = str.Split(';').ToList();
