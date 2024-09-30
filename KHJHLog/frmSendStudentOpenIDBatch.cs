@@ -446,7 +446,7 @@ namespace KHJHLog
                     }
                     rowIdx++;
                 }
-                Utility.ExprotXls("批次傳送學生OpenID", wb);
+                Utility.ExportXls("批次傳送學生OpenID", wb);
             }
 
             btnExcel.Enabled = true;

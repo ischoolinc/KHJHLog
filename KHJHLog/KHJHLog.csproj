@@ -33,9 +33,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells, Version=4.3.0.0, Culture=neutral, PublicKeyToken=9a40d5a4b59e5256, processorArchitecture=MSIL">
+    <Reference Include="Aspose.Cells_201402, Version=7.7.1.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Library\Aspose.Cells.dll</HintPath>
+      <HintPath>Library\Aspose.Cells_201402.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Campus.Configuration, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
@@ -105,6 +105,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -133,7 +134,10 @@
     <Compile Include="Club\SchoolClassRecord.cs" />
     <Compile Include="Club\SchoolClubRecord.cs" />
     <Compile Include="Club\tool.cs" />
+    <Compile Include="DAO\SchoolSysAdminInfo.cs" />
+    <Compile Include="DAO\SchoolUserInfo.cs" />
     <Compile Include="DataGridViewExport.cs" />
+    <Compile Include="DataGridViewTextBoxColumnInfo.cs" />
     <Compile Include="frmActionList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,6 +221,12 @@
     </Compile>
     <Compile Include="frmStudentChangeClass.Designer.cs">
       <DependentUpon>frmStudentChangeClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSysAdminAndAccountInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSysAdminAndAccountInfo.Designer.cs">
+      <DependentUpon>frmSysAdminAndAccountInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="frmTestPassport.cs">
       <SubType>Form</SubType>
@@ -315,6 +325,9 @@
     <EmbeddedResource Include="frmStudentChangeClass.resx">
       <DependentUpon>frmStudentChangeClass.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmSysAdminAndAccountInfo.resx">
+      <DependentUpon>frmSysAdminAndAccountInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmTestPassport.resx">
       <DependentUpon>frmTestPassport.cs</DependentUpon>
     </EmbeddedResource>
@@ -327,6 +340,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="QueryLog.resx">
       <DependentUpon>QueryLog.cs</DependentUpon>
@@ -340,6 +354,7 @@
     <None Include="Resources\學生成績通知單%289-12%29.doc" />
     <None Include="Template\各校人數超過上限班級統計樣版.xls" />
     <None Include="Template\各校班級類別統計樣版.xls" />
+    <None Include="Template\系統師及帳號資訊樣板.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\achievement_config_128.png" />
@@ -351,8 +366,8 @@
     <None Include="Resources\student_a_128.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Library\Aspose.Cells.dll" />
-    <Content Include="Library\Aspose.Cells.xml" />
+    <Content Include="Library\Aspose.Cells_201402.dll" />
+    <Content Include="Library\Aspose.Cells_201402.xml" />
     <Content Include="Library\Campus.Configuration.dll" />
     <Content Include="Library\Campus.Configuration.pdb" />
     <Content Include="Library\Campus.Report.dll" />

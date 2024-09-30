@@ -63,5 +63,15 @@ namespace KHJHLog
             }
         }
 
+        public static string 系管師及帳號資訊 { get { return "DB50057E-D8B8-4EC6-BB73-F1EEF43B3CD4"; } }
+        
+        public static bool 系管師及帳號資訊權限
+        {
+            get
+            {
+                return FISCA.Permission.UserAcl.Current[系管師及帳號資訊].Executable;
+            }
+        }
+
     }
 }

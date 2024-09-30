@@ -86,7 +86,7 @@ namespace KHJHLog
                     classNameB64Dict.Add(cName, cNameB64);
             }
 
-            XElement elmReq = new XElement("Request");
+            //XElement elmReq = new XElement("Request");
 
             foreach (DataGridViewRow drv in dgData.Rows)
             {
@@ -108,40 +108,76 @@ namespace KHJHLog
                 if (co != null)
                 {
                     string value = @"http://stuadm.kh.edu.tw/service/syncJClass/" + co.SchoolID + "/" + co.strSchoolYearSems + "/D/J/0/" + co.ClassName + "/className/" + co.ClassNameB64;
+                    XElement elmReq = new XElement("Request");
                     XElement elm = new XElement("Req", value);
                     elmReq.Add(elm);
-                }
+                    XmlHelper req = new XmlHelper(elmReq.ToString());
 
-            }
+                    //Envelope Response = con.SendRequest("_.SendData", new Envelope(req));
 
-            XmlHelper req = new XmlHelper(elmReq.ToString());
-
-            Envelope Response = con.SendRequest("_.SendData", new Envelope(req));
-
-            XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
-
-            // 填入回傳
-            try
-            {
-                XElement elmRsp = XElement.Parse(elmResponse.ToString());
-                int rowIdx = 0;
-                foreach (XElement elm in elmRsp.Elements("Rsp"))
-                {
-                    if (dgData.Rows[rowIdx] != null)
+                    //XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
+                    int i = 1;
+                    // 填入回傳
+                    try
                     {
-                        dgData.Rows[rowIdx].Cells["呼叫回傳"].Value = elm.Value;
-                        rowIdx++;
-                        
+                        Envelope Response = con.SendRequest("_.SendData", new Envelope(req));
+
+                        XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
+
+                        //XElement elmRsp = XElement.Parse(elmResponse.ToString());
+                        //int rowIdx = 0;
+                        //foreach (XElement elmr in elmRsp.Elements("Rsp"))
+                        //{
+                        //    if (dgData.Rows[rowIdx] != null)
+                        //    {
+                        //        dgData.Rows[rowIdx].Cells["呼叫回傳"].Value = elmr.Value;
+                        //        rowIdx++;
+
+                        //    }
+                        //}
+                        // 寫入 Log
+                        Utility.WriteOpenSendLog("傳送班級", elmReq.ToString(), elmResponse.ToString());
+                        i++;
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    //// 寫入 Log
+                    //Utility.WriteOpenSendLog("傳送班級", elmReq.ToString(), elmResponse.ToString());
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+
             }
 
-            // 寫入 Log
-            Utility.WriteOpenSendLog("傳送班級", elmReq.ToString(), elmResponse.ToString());
+            //XmlHelper req = new XmlHelper(elmReq.ToString());
+
+            //Envelope Response = con.SendRequest("_.SendData", new Envelope(req));
+
+            //XElement elmResponse = XElement.Load(new StringReader(Response.Body.XmlString));
+
+            //// 填入回傳
+            //try
+            //{
+            //    XElement elmRsp = XElement.Parse(elmResponse.ToString());
+            //    int rowIdx = 0;
+            //    foreach (XElement elm in elmRsp.Elements("Rsp"))
+            //    {
+            //        if (dgData.Rows[rowIdx] != null)
+            //        {
+            //            dgData.Rows[rowIdx].Cells["呼叫回傳"].Value = elm.Value;
+            //            rowIdx++;
+                        
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
+
+            //// 寫入 Log
+            //Utility.WriteOpenSendLog("傳送班級", elmReq.ToString(), elmResponse.ToString());
 
             MsgBox.Show("傳送完成");
             btnSend.Enabled = true;
@@ -372,7 +408,7 @@ namespace KHJHLog
                     }
                     rowIdx++;
                 }
-                Utility.ExprotXls("批次傳送班級OpenID", wb);
+                Utility.ExportXls("批次傳送班級OpenID", wb);
             }
 
             btnExcel.Enabled = true;

@@ -169,5 +169,15 @@ namespace KHJHLog.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] 系統師及帳號資訊樣板 {
+            get {
+                object obj = ResourceManager.GetObject("系統師及帳號資訊樣板", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

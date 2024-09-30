@@ -512,7 +512,7 @@ namespace KHJHLog
                     }
                     rowIdx++;
                 }
-                Utility.ExprotXls("傳送轉學學生OpenID", wb);
+                Utility.ExportXls("傳送轉學學生OpenID", wb);
             }
 
             btnExcel.Enabled = true;

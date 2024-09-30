@@ -157,6 +157,23 @@ namespace KHJHLog
             MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Image = Properties.Resources.mask_zoom_64;
             MainPanel.RibbonBarItems["查詢"]["查詢無導師班級"].Size = RibbonBarButton.MenuButtonSize.Medium;
 
+            // 新增加
+            MainPanel.RibbonBarItems["查詢"]["系管師及帳號資訊"].Enable = Permissions.系管師及帳號資訊權限;
+            MainPanel.RibbonBarItems["查詢"]["系管師及帳號資訊"].Click += (sender, e) =>
+            {
+                if (MainPanel.SelectedSource.Count > 0)
+                {
+                    new frmSysAdminAndAccountInfo().ShowDialog();
+                }
+                else
+                {
+                    FISCA.Presentation.Controls.MsgBox.Show("請選擇學校!");
+                }
+
+            };
+            MainPanel.RibbonBarItems["查詢"]["系管師及帳號資訊"].Image = Properties.Resources.mask_zoom_64;
+            MainPanel.RibbonBarItems["查詢"]["系管師及帳號資訊"].Size = RibbonBarButton.MenuButtonSize.Medium;
+
 
             FISCA.Permission.Catalog AdminCatalog = FISCA.Permission.RoleAclSource.Instance["自動編班"]["功能按鈕"];
             AdminCatalog.Add(new RibbonFeature(Permissions.查詢紀錄, "查詢紀錄"));
@@ -166,6 +183,7 @@ namespace KHJHLog
             AdminCatalog.Add(new RibbonFeature(Permissions.批次傳送學生OpenID, "批次傳送學生OpenID"));
             AdminCatalog.Add(new RibbonFeature(Permissions.批次傳送班級OpenID, "批次傳送班級OpenID"));
             AdminCatalog.Add(new RibbonFeature(Permissions.查詢傳送OpenID, "查詢傳送學生OpenID"));
+            AdminCatalog.Add(new RibbonFeature(Permissions.系管師及帳號資訊, "系管師及帳號資訊"));
 
         }
 

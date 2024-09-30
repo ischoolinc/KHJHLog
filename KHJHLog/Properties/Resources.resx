@@ -151,4 +151,7 @@
   <data name="學生成績通知單_9_12_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\學生成績通知單(9-12).doc;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="系統師及帳號資訊樣板" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\template\系統師及帳號資訊樣板.xlsx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

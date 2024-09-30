@@ -38,14 +38,14 @@ namespace KHJHLog
         /// </summary>
         /// <param name="inputReportName"></param>
         /// <param name="inputXls"></param>
-        public static void ExprotXls(string ReportName, Workbook wbXls)
+        public static void ExportXls(string ReportName, Workbook wbXls)
         {
             string reportName = ReportName;
 
             string path = Path.Combine(Application.StartupPath, "Reports");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            path = Path.Combine(path, reportName + ".xls");
+            path = Path.Combine(path, reportName + ".xlsx");
 
             Workbook wb = wbXls;
 
@@ -65,20 +65,20 @@ namespace KHJHLog
 
             try
             {
-                wb.Save(path, FileFormatType.Excel2003);
+                wb.Save(path);
                 System.Diagnostics.Process.Start(path);
             }
             catch
             {
                 SaveFileDialog sd = new SaveFileDialog();
                 sd.Title = "另存新檔";
-                sd.FileName = reportName + ".xls";
-                sd.Filter = "Excel檔案 (*.xls)|*.xls|所有檔案 (*.*)|*.*";
+                sd.FileName = reportName + ".xlsx";
+                sd.Filter = "Excel檔案 (*.xlsx)|*.xlsx|所有檔案 (*.*)|*.*";
                 if (sd.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        wb.Save(sd.FileName, FileFormatType.Excel2003);
+                        wb.Save(sd.FileName);
 
                     }
                     catch

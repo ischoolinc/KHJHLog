@@ -119,6 +119,60 @@ namespace KHJHLog
                     " + Limit + ";";
             }
 
+//            // query debug 用
+//            strQuery = @"
+//SELECT
+//	uid,
+//	last_update,
+//	request_content,
+//	response_content
+//FROM
+//	$openid.send.log
+//WHERE
+//	action_name = '傳送轉學學生OpenID'
+// AND request_content like '%A231097250%'
+//UNION ALL
+//SELECT
+//	uid,
+//	last_update,
+//	request_content,
+//	response_content
+//FROM
+//	$openid.send.log
+//WHERE
+//	action_name = '傳送轉學學生OpenID'
+// AND request_content like '%H127051269%'
+// UNION ALL
+//SELECT
+//	uid,
+//	last_update,
+//	request_content,
+//	response_content
+//FROM
+//	$openid.send.log
+//WHERE
+//	action_name = '傳送轉學學生OpenID'
+// AND request_content like '%D123667623%'
+// UNION ALL
+//SELECT
+//	uid,
+//	last_update,
+//	request_content,
+//	response_content
+//FROM
+//	$openid.send.log
+//WHERE
+//	action_name = '傳送轉學學生OpenID'
+// AND request_content like '%O100887216%'
+//    ORDER BY
+//                    last_update DESC,
+//                    uid DESC
+
+//";
+
+
+
+
             QueryHelper qh = new QueryHelper();
             dt = qh.Select(strQuery);
 

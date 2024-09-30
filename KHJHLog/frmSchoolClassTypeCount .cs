@@ -127,7 +127,7 @@ namespace KHJHLog
                 _rowIdx++;
             }
 
-            Utility.ExprotXls("各校班級人數統計", wb); 
+            Utility.ExportXls("各校班級人數統計", wb); 
             #endregion
             
         }

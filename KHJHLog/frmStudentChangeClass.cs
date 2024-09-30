@@ -211,7 +211,7 @@ namespace KHJHLog
                     rowIdx++;
                 }
 
-                Utility.ExprotXls("各校學生調整班級", wb);
+                Utility.ExportXls("各校學生調整班級", wb);
                 btnExport.Enabled = true;
             }
         }

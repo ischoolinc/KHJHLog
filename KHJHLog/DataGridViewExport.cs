@@ -53,7 +53,8 @@ namespace KHJHLog
 
             book.Worksheets[0].AutoFitColumns();
 
-            ReportSaver.SaveWorkbook(book, name);
+            //ReportSaver.SaveWorkbook(book, name);
+            Utility.ExportXls(name, book);
         }
     }
 }

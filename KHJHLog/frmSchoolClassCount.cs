@@ -234,7 +234,7 @@ namespace KHJHLog
 
                }
 
-               Utility.ExprotXls("各校人數超過上限班級統計", wb);
+               Utility.ExportXls("各校人數超過上限班級統計", wb);
                btnExport.Enabled = true;
            }
         }
