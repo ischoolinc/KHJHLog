@@ -319,6 +319,8 @@ namespace KHJHLog
                     wb.Worksheets.RemoveAt("系統管理師");
                 }
 
+                Utility.ExportXls("系統師及帳號資訊", wb);
+
             }
             catch (Exception ex)
             {
