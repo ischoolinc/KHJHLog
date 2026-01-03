@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
+using K12eaCentralOffice.K12eaQ1Q2;
 
 namespace KHJHLog
 {
@@ -80,6 +81,8 @@ namespace KHJHLog
             Manager.SyncSchema(new Action());
             Manager.SyncSchema(new upload_url());
 
+            // ★★★★★ 在這裡加入 Q1/Q2 Menu 的註冊 ★★★★★
+            K12eaQ1Q2Menu.Register(MainPanel);
 
             // OpenID
             MainPanel.RibbonBarItems["OpenID"]["傳送轉學學生OpenID"].Click += (sender, e) => new frmSendStudentOpenID().ShowDialog();
